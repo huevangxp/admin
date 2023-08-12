@@ -233,7 +233,7 @@ export default {
         { text: "ອີເມວ", value: "email" },
         { text: "ສະຖານະ", value: "role" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
       items: [
         { id: 1, text: "super_admin" },

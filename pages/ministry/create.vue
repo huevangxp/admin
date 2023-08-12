@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card max-width="500px" class="mx-auto" elevation="10">
       <v-card-title class="primary white--text">
-        ສ້າງພະນັກງານຂອງກະຊວງ
+        ສ້າງສະມາຊິກຂອງກະຊວງ
       </v-card-title>
       <v-card-title class="d-flex justify-center">
         <v-card-text class="d-none">
@@ -25,12 +25,12 @@
             <v-text-field
               hide-details="auto"
               v-model="user.username"
-              placeholder="ຊື່ຂອງພະນັກງານ"
+              placeholder="ຊື່ຂອງສະມາຊິກ"
               dense
               outlined
               :rules="[
-                (v) => !!v || 'ກະລຸນາປ້ອນຊື່ຂອງພະນັກງານ',
-                // (v) => v && v.length >= 3 || 'ຊື່ຂອງພະນັກງານຕ້ອງຢ່າງໜ້ອຍ 3 ຕົວອັກສອນຂຶ້ນ'
+                (v) => !!v || 'ກະລຸນາປ້ອນຊື່ຂອງສະມາຊິກ',
+                // (v) => v && v.length >= 3 || 'ຊື່ຂອງສະມາຊິກຕ້ອງຢ່າງໜ້ອຍ 3 ຕົວອັກສອນຂຶ້ນ'
               ]"
             ></v-text-field>
           </v-col>

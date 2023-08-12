@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <v-card class="d-flex justify-center"> -->
     <div class="d-flex justify-center mb-10">
       <img
         style="height: 100px; width: 100px; object-fit: cover"
@@ -29,7 +28,7 @@
       </v-col>
       <v-col cols="12">
         <div class="text-center">
-          <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງຖີ່ນ ຂະແໜງ</span>
+          <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງຖີ່ນ</span>
           <span class="font-weight-bold"
             >ປີ: {{ $moment(Date()).format("YYYY") }}</span
           >
@@ -39,74 +38,139 @@
     <!-- {{ listing }} -->
     <div class="my-5"></div>
     <!-- <template> -->
-    <table width="100%" scrolling="0" class="bordered-table py-16">
-      <!-- <template> -->
-      <thead>
-        <tr>
-          <th>ລ/ດ</th>
-          <th class="wider">ຊື່ຂະແໜງ</th>
-          <th class="rotate">
-            <div>ຈໍານວນຫົວໜ້າຂະແໜງ</div>
-          </th>
-          <th class="rotate">
-            <div>ຈໍານວນຄະນະຂະແໜງ</div>
-          </th>
-        </tr>
-      </thead>
-      <tbody style="text-align: center">
-        <tr v-for="(item, index) in listing" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.boss }}</td>
-              <td>{{ item.subBoss }}</td>
+      <table scrolling="0" class="bordered-table py-16">
+        <!-- <template> -->
+          <thead >
+            <tr>
+              <th>ລ/ດ</th>
+              <th class="wider"></th>
+              <th class="wider">ເມືອງ</th>
+              <th class="rotate">
+                <div>ຈໍານວນຫ້ອງການເມືອງ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຫົວໜ້າຫ້ອງການເມືອງ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຄະນະຫ້ອງການເມືອງ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຂະໜ່ວຍງານ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຫົວໜ້າໜ່ວຍງານ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຄະນະຂະໜ່ວຍງານ</div>
+              </th>
+              <!-- <th class="rotate">
+                <div>ຈໍານວນພະແນກ ເພີ່ມ/ຫຼຸດ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຂະແໜງ ເພີ່ມ/ຫຼຸດ</div>
+              </th> -->
             </tr>
-        <tr>
-          <td>ລວມ</td>
-          <td> {{ allSector.length }} ຂະແໜງ </td>
-              <td>{{ listing.reduce((sum, e) => sum + e.boss, 0) }} ຫົວໜ້າ</td>
-              <td>{{ listing.reduce((sum, e) => sum + e.subBoss, 0) }} ຄະນະ</td>
-        </tr>
-      </tbody>
-    </table>
-
+          </thead>
+          <tbody style="text-align: center">
+            <tr v-for="(item, index) in listing" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ item.province }}</td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.city_title }}</td>
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.office }}</td>
+                  
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.boss }}</td>
+                  
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.subBoss }}</td>
+                  
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.unit }}</td>
+                  
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.unitBoss }}</td>
+                  
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">{{ data.unitSubboss }}</td>
+                </div>
+              </td>
+              <!-- <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">0</td>
+                </div>
+              </td>
+              <td >
+                <div v-for="(data, index) in item.district" :key="index">
+                  <td style="width:200px">0</td>
+                </div>
+              </td> -->
+              <!-- <td></td> -->
+              <!-- <td></td> -->
+            </tr>
+            <tr>
+              <td></td>
+              <td>ລວມ</td>
+              <td>{{ allCity.length }} ເມືອງ</td>
+              <td>
+                {{ allOffices?.length }}
+              </td>
+              <td>
+              <!-- <div v-for="(item, index) in listing" :key="index">
+                {{ item.district.map((e)=> e.office) }}
+              </div> -->
+              </td>
+              <td>ລວມ</td>
+              <td>ລວມ</td>
+              <td>ລວມ</td>
+              <td>ລວມ</td>
+            </tr>
+          </tbody>
+      </table>
+    <!-- </template> -->
     <v-row class="mt-16">
       <v-col cols="6"> </v-col>
       <v-col cols="6" class="d-flex justify-end">
-        <v-btn
-          color="blue"
-          class="mx-3 white--text"
-          @click="$router.push('/reports/rural/printData')"
-        >
-          <v-icon>mdi-printer</v-icon> print</v-btn
-        >
-
-        <download-excel
-          class="download"
-          :header="e_headers"
-          worksheet="ລາຍງານ"
-          :fetch="download"
-          :name="title"
-          :before-finish="finishDownload"
-        >
-          <v-btn color="primary" dark>
-            <v-icon left small>mdi-download</v-icon>
-            ດາວໂຫຼດ Excel
-          </v-btn>
-        </download-excel>
+        <v-btn color="red" outlined @click="$router.back()">ຍົກເລິກ</v-btn>
+          <v-btn color="primary" @click="printData">ດາວໂຫຼດ</v-btn>
+      
       </v-col>
     </v-row>
+ 
   </div>
 </template>
 <script>
 export default {
+  layout: 'Black',
   data() {
     return {
-      pid: this.$cookies.get("pid"),
-      id: this.$cookies.get("userId"),
-      allSector: [],
-      allEmployee: [],
-      listing:[],
+      search: "",
       e_headers: "ລາຍງານ",
+      dialog: false,
+
+      // boss: 100,
+      // ruralData:
+
       title:
         "ລາຍງານ" +
         new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -121,59 +185,123 @@ export default {
           },
         ],
       ],
+      allCity: [],
+      allProvince: [],
+      allOffices: [],
+      allUnits: [],
+      allEmployee: [],
     };
   },
-  computed: {
-    listing1() {
-      const list = this.allSector.map((el) => {
-        const filteredSectors = this.allSector.filter((sector) => {
-          return sector.id === el.id
-        });
-        // console.log("==============:", filteredSectors);
-        const filterHeadFromAllEmployee = this.allEmployee.filter((e) => {
-          if (e.position === "ຫົວໜ້າ") {
-            if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
-              return true;
-            }
-            return false;
-          }
-          return false;
-        });
-        const subHeadFromAllEmployee = this.allEmployee.filter((e) => {
-          if (e.position === "ຄະນະ") {
-            if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
-              return true;
-            }
-            return false;
-          }
-          return false;
-        });
-        return {
-          title: el.sector_title,
-          boss: filterHeadFromAllEmployee.length,
-          subBoss: subHeadFromAllEmployee.length,
-        };
-      });
-      return list;
-    },
-  },
   mounted() {
+    this.$store.dispatch("user/getAdmin");
     this.getData();
   },
-  methods: {
-    getData() {
-      this.$axios.get(`/sectorAllById/${this.id}`).then((res) => {
-        // console.log(res.data);
-        this.allSector = res?.data;
+  computed: {
+    listing() {
+      const list = this.allProvince.map((el) => {
+        // console.log(el);
+        const filterDistict = this.allCity.filter(
+          (e) => e.province_id == el.id
+        );
+        // console.log('filterDistict: ', filterDistict);
+
+        const district = filterDistict.map((item) => {
+          // console.log(item);
+
+          const offices = this.allOffices.filter((e) => e.city_id == item.id);
+
+          const filterHeadFromAllEmployee = this.allEmployee.filter((e) => {
+            if (e.position === "ຫົວໜ້າ") {
+              if (offices.some((pdoEl) => pdoEl.id === e.from_db_id)) {
+                return true;
+              }
+              return false;
+            }
+            return false;
+          });
+          const HeadFromAllEmployee = this.allEmployee.filter((e) => {
+            if (e.position === "ຄະນາ") {
+              if (offices.some((pdoEl) => pdoEl.id === e.from_db_id)) {
+                return true;
+              }
+              return false;
+            }
+            return false;
+          });
+
+          const unit = this.allUnits.filter((e) => {
+          if (offices.some((pdoEl) => pdoEl.id === e.office_id)) {
+            return true;
+          }
+          return false;
+          });
+
+          const headDepartmentCounting = this.allEmployee.filter((e) => {
+          if (e.position === "ຫົວໜ້າ") {
+            if (unit.some((dEl) => dEl.id === e.from_db_id)) {
+              return true;
+            }
+            return false;
+          }
+          });
+          const subHeadDepartmentCounting = this.allEmployee.filter((e) => {
+          if (e.position === "ຄະນະ") {
+            if (unit.some((dEl) => dEl.id === e.from_db_id)) {
+              return true;
+            }
+            return false;
+          }
+        });
+
+          return {
+            city_title: item.title,
+            office: offices.length,
+            boss: filterHeadFromAllEmployee.length,
+            subBoss: HeadFromAllEmployee.length,
+            unit: unit.length,
+            unitBoss: headDepartmentCounting.length,
+            unitSubboss: subHeadDepartmentCounting.length
+          };
+        });
+
+        return {
+          province: el.province_title,
+          district: district,
+        };
       });
 
-      this.$axios.get(`/get-employee-userId/${this.id}`).then((res) => {
-        // console.log(res.data);
-        this.allEmployee = res?.data;
+      return list;
+    },
+    admin() {
+      return this.$store.state.user.admin;
+    },
+  },
+  methods: {
+    printData() {
+      window.print();
+    },
+    opendownload() {
+      this.dialog = true;
+    },
+    getData() {
+      this.$axios.get("/reports-provinces").then((res) => {
+        this.allProvince = res.data;
+      });
+      this.$axios.get("/reports-city").then((res) => {
+        this.allCity = res.data;
+      });
+      this.$axios.get("/reports-offices").then((res) => {
+        this.allOffices = res.data;
+      });
+      this.$axios.get("/reports-units").then((res) => {
+        this.allUnits = res.data;
+      });
+      this.$axios.get("/employee-report").then((res) => {
+        this.allEmployee = res.data;
       });
     },
     async download() {
-     try {
+      try {
         var list = [],
           index = 0;
         for (let i = 0; i < this.listing.length; i++) {
@@ -181,16 +309,30 @@ export default {
           index = parseInt(i) + 1;
           var obj = {
             ລຳດັບ: index,
-            ຊື່ຂະແໜງ: el.sector_title,
-            ຈໍານວນຫົວໜ້າຂະແໜງ: el.boss,
-            ຈໍານວນຄະນະຂະແໜງ: el.subBoss,
+            ຊື່ສໍານັກງານອົງການ: el.province,
           };
-          list.push(obj);
+
+          for(let i = 0; i< el.district.length; i++) {
+            var item = el.district[i];
+            var data = {
+              ເມືອງ: item.city_title,
+              ຈໍານວນຫ້ອງການເມືອງ: item.office,
+              ານວນຫົວໜ້າຫ້ອງການເມືອງ: item.boss,
+              ຈໍານວນຄະນະຫ້ອງການເມືອງ: item.subBoss,
+              ຈໍານວນຂະໜ່ວຍງານ: item.unit,
+              ຈໍານວນຫົວໜ້າໜ່ວຍງານ: item.unitBoss,
+              ຈໍານວນຄະນະຂະໜ່ວຍງານ: item.unitSubboss,
+            }
+            list.push({ ...obj, ...data });
+          }
+          
+       
+          // list.push(obj);
         }
         return list;
-     } catch (error) {
-      console.log(error);
-     }
+      } catch (error) {
+        console.log(error);
+      }
     },
     finishDownload() {
       this.$toast.success("ດາວໂຫຼດຂໍ້ມູນເຂົ້າ excel ສຳເລັດແລ້ວ...");
@@ -198,15 +340,16 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .bordered-table {
   border-collapse: collapse;
   border: 1px solid #ccc;
 }
 
-.bordered-table th,
-td {
+.bordered-table th, td {
   border: 1px solid #ccc;
+
 }
 
 .rotate {

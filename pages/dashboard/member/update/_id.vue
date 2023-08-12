@@ -6,7 +6,7 @@
           <v-avatar class="mr-3 pa-1" size="40" color="teal">
             <v-icon class="white">mdi-account-edit</v-icon>
           </v-avatar>
-          ອັບເດດພະນັກງານ</v-card-title
+          ອັບເດດສະມາຊິກ</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text class="d-none">

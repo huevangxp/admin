@@ -29,7 +29,7 @@
         </v-col>
         <v-col cols="12">
           <div class="text-center">
-            <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນສູນກາງ</span>
+            <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງຖີ່ນ ຂະແໜງ</span>
             <span class="font-weight-bold"
               >ປີ: {{ $moment(Date()).format("YYYY") }}</span
             >
@@ -44,112 +44,61 @@
         <thead>
           <tr>
             <th>ລ/ດ</th>
-            <th class="wider">ຊື່ກົມ</th>
+            <th class="wider">ຊື່ຂະແໜງ</th>
             <th class="rotate">
-              <div>ຈຳນວນຫົວໜ້າກົມ</div>
+              <div>ຈໍານວນຫົວໜ້າຂະແໜງ</div>
             </th>
             <th class="rotate">
-              <div>ຈຳນວນຄະນະກົມ</div>
-            </th>
-            <th class="rotate">
-              <div>ຈຳນວນພະແນກ</div>
-            </th>
-           
-            <th class="rotate">
-              <div>ຈຳນວນຫົວໜ້າພະແນກ</div>
-            </th>
-            <th class="rotate">
-              <div>ຈຳນວນຄະນະພະແນກ</div>
+              <div>ຈໍານວນຄະນະຂະແໜງ</div>
             </th>
           </tr>
         </thead>
         <tbody style="text-align: center">
           <tr v-for="(item, index) in listing" :key="index">
-                <td width="50px">{{ index + 1 }}</td>
-                <td width="100px">{{ item.title }}</td>
-                <td>{{ item.do_boss }}</td>
-                <td>{{ item.do_suBoss }}</td>
-                <td>{{ item.department }}</td>
-                <td>{{ item.department_boss }}</td>
-                <td>{{ item.department_suBoss }}</td>
+                <td>{{ index + 1 }}</td>
+                <td>{{ item.title }}</td>
+                <td>{{ item.boss }}</td>
+                <td>{{ item.subBoss }}</td>
               </tr>
           <tr>
-            <td height="50px">ລວມ</td>
-            <td> {{ dataDO.length }} ກົມ </td>
-                <td>{{ listing.reduce((sum, e) => sum + e.do_boss, 0) }} </td>
-                <td>{{ listing.reduce((sum, e) => sum + e.do_suBoss, 0) }} </td>
-                <td>{{ listing.reduce((sum, e) => sum + e.department, 0) }} </td>
-                <td>{{ listing.reduce((sum, e) => sum + e.department_boss, 0) }} </td>
-                <td>{{ listing.reduce((sum, e) => sum + e.department_suBoss, 0) }} </td>
+            <td>ລວມ</td>
+            <td> {{ allSector.length }} ຂະແໜງ </td>
+                <td>{{ listing.reduce((sum, e) => sum + e.boss, 0) }} ຫົວໜ້າ</td>
+                <td>{{ listing.reduce((sum, e) => sum + e.subBoss, 0) }} ຄະນະ</td>
           </tr>
         </tbody>
       </table>
   
       <v-row class="mt-16">
-        <v-col cols="6"> </v-col>
-        <v-col cols="6" class="d-flex justify-end">
-          <v-btn
-            color="blue"
-            class="mx-3 white--text"
-            @click="$router.push('/reports/ministry/printData')"
-          >
-            <v-icon>mdi-printer</v-icon> print</v-btn
-          >
-  
-          <download-excel
-            class="download"
-            :header="e_headers"
-            worksheet="ລາຍງານ"
-            :fetch="download"
-            :name="title"
-            :before-finish="finishDownload"
-          >
-            <v-btn color="primary" dark>
-              <v-icon left small>mdi-download</v-icon>
-              ດາວໂຫຼດ Excel
-            </v-btn>
-          </download-excel>
-        </v-col>
-      </v-row>
+      <v-col cols="6"> </v-col>
+      <v-col cols="6" class="d-flex justify-end">
+        <v-btn color="red" outlined @click="$router.back()" class="mx-2">ຍົກເລິກ</v-btn>
+          <v-btn color="primary" @click="printData">ດາວໂຫຼດ</v-btn>
+      </v-col>
+    </v-row>
     </div>
   </template>
   <script>
   export default {
+    layout:'Black',
     data() {
       return {
         pid: this.$cookies.get("pid"),
         id: this.$cookies.get("userId"),
-        listing:[],
-        allDepartment: [],
-        dataDO: [],
+        allSector: [],
         allEmployee: [],
-        e_headers: "ລາຍງານ",
-        title:
-          "ລາຍງານ" +
-          new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-            .toISOString()
-            .substr(0, 10) +
-          ".xls",
-        json_meta: [
-          [
-            {
-              key: "charset",
-              value: "utf-8",
-            },
-          ],
-        ],
       };
     },
     computed: {
-      listing1() {
-        const list = this.dataDO.map((el) => {
-          const filteredDO = this.dataDO.filter((doId) => {
-            return doId.id === el.id
+      listing() {
+        const list = this.allSector.map((el) => {
+          const filteredSectors = this.allSector.filter((sector) => {
+            return sector.id === el.id
           });
-  
+          // console.log("==============:", filteredSectors);
           const filterHeadFromAllEmployee = this.allEmployee.filter((e) => {
             if (e.position === "ຫົວໜ້າ") {
-              if (filteredDO.some((sid) => sid.id == e.from_db_id)) {
+              if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
                 return true;
               }
               return false;
@@ -158,46 +107,17 @@
           });
           const subHeadFromAllEmployee = this.allEmployee.filter((e) => {
             if (e.position === "ຄະນະ") {
-              if (filteredDO.some((sid) => sid.id == e.from_db_id)) {
+              if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
                 return true;
               }
               return false;
             }
             return false;
           });
-  
-          const filterDeparment = this.allDepartment.filter((e) => {
-            if (filteredDO.some((sid) => sid.id == e.department_organization_id)) {
-                return true;
-              }
-          })
-  
-          const departmentHeadFromAllEmployee = this.allEmployee.filter((e) => {
-            if (e.position === "ຫົວໜ້າ") {
-              if (filterDeparment.some((sid) => sid.id == e.from_db_id)) {
-                return true;
-              }
-              return false;
-            }
-            return false;
-          });
-          const departmentSubHeadFromAllEmployee = this.allEmployee.filter((e) => {
-            if (e.position === "ຄະນະ") {
-              if (filterDeparment.some((sid) => sid.id == e.from_db_id)) {
-                return true;
-              }
-              return false;
-            }
-            return false;
-          });
-  
           return {
-                title: el.department_organization_title,
-                do_boss: filterHeadFromAllEmployee.length,
-                do_suBoss: subHeadFromAllEmployee.length,
-                department: filterDeparment.length,
-                department_boss: departmentHeadFromAllEmployee.length,
-                department_suBoss: departmentSubHeadFromAllEmployee.length
+            title: el.sector_title,
+            boss: filterHeadFromAllEmployee.length,
+            subBoss: subHeadFromAllEmployee.length,
           };
         });
         return list;
@@ -207,53 +127,19 @@
       this.getData();
     },
     methods: {
-          getData() {
-              this.$axios
-                  .get(`/department-report/${this.id}`)
-                  .then((res) => {
-                      this.allDepartment = res?.data
-                  });
-              this.$axios
-                  .get(`/department-organizations/${this.id}`)
-                  .then((res) => {
-                      console.log(res.data);
-                      this.dataDO = res?.data.rows
-                  });
-              this.$axios.get(`/get-employee-userId/${this.id}`).
-                  then((res) => {
-                    //   console.log(res.data);
-                      this.allEmployee = res?.data
-                  });
-        },
-      printData() {
-        window.print();
-      },
-      async download() {
-       try {
-          var list = [],
-            index = 0;
-          for (let i = 0; i < this.listing.length; i++) {
-            var el =  this.listing[i];
-            index = parseInt(i) + 1;
-            var obj = {
-              ລຳດັບ: index,
-              ຊື່ກົມ: el.title,
-              ຈຳນວນຫົວໜ້າກົມ: el.do_boss,
-              ຈຳນວນຄະນະກົມ: el.do_suBoss,
-              ຈຳນວນພະແນກ: el.department,
-              ຈຳນວນຫົວໜ້າພະແນກ: el.department_boss,
-              ຈຳນວນຄະນະພະແນກ: el.department_suBoss,
-              // ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
-            };
-            list.push(obj);
-          }
-          return list;
-       } catch (error) {
-        console.log(error);
-       }
-      },
-      finishDownload() {
-        this.$toast.success("ດາວໂຫຼດຂໍ້ມູນເຂົ້າ excel ສຳເລັດແລ້ວ...");
+        printData() {
+      window.print();
+    },
+      getData() {
+        this.$axios.get(`/sectorAllById/${this.id}`).then((res) => {
+          // console.log(res.data);
+          this.allSector = res?.data;
+        });
+  
+        this.$axios.get(`/get-employee-userId/${this.id}`).then((res) => {
+          // console.log(res.data);
+          this.allEmployee = res?.data;
+        });
       },
     },
   };
@@ -276,5 +162,4 @@
     /* border: none; */
   }
   </style>
-  
   

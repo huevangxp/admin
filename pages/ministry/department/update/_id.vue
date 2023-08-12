@@ -6,7 +6,7 @@
           <v-avatar class="mr-3 pa-1" size="40" color="teal">
             <v-icon class="white">mdi-account-edit</v-icon>
           </v-avatar>
-          ອັບເດດພະນັກງານ</v-card-title
+          ອັບເດດສະມາຊິກ</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text class="d-none">
@@ -51,6 +51,7 @@
               <v-text-field
                 v-model="user.phone"
                 label="ເບີໂທ"
+                type="number"
                 outlined
                 dense
                 hide-details="auto"
@@ -58,14 +59,17 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field
+              <v-select
                 v-model="user.position"
                 label="ຕຳແໜງ"
+                :items="bossRole"
+                item-value="value"
+                item-text="value"
                 outlined
                 dense
                 hide-details="auto"
                 :rules="[(v) => !!v || 'ຈຳເປັນ']"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -113,13 +117,18 @@ export default {
       image: "",
       imageUrl: "",
       loading: false,
+      bossRole: [
+        {id:1, value:"ຫົວໜ້າ"},
+        {id:2, value:"ຄະນະ"},
+      ]
     };
   },
   mounted() {
     this.$axios
-      .get(`/department-organizations-member/${this.id}`)
+      .get(`/employee-one/${this.id}`)
       .then((res) => {
-        this.user = res?.data[0];
+        // console.log(res);
+        this.user = res.data
       });
   },
   computed: {
@@ -154,7 +163,7 @@ export default {
         };
         console.log(data);
         await this.$axios
-          .put(`/department-organization-member/${this.id}`, data)
+          .put(`/update-employee/${this.id}`, data)
           .then((res) => {
             this.$toast.success("ສຳເລັດ");
             this.$router.back();

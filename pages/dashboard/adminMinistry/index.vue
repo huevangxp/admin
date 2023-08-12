@@ -105,7 +105,7 @@ export default {
         { text: "ຊື່", value: "user_name" },
         { text: "ສະຖານະ", value: "role" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
     };
     

@@ -29,83 +29,121 @@
       </v-col>
       <v-col cols="12">
         <div class="text-center">
-          <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງຖີ່ນ ຂະແໜງ</span>
+          <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງສູນກາງ</span>
           <span class="font-weight-bold"
             >ປີ: {{ $moment(Date()).format("YYYY") }}</span
           >
         </div>
       </v-col>
     </v-row>
-    <!-- {{ listing }} -->
+
+    <!-- <div>
+      {{ listing }}
+    </div> -->
     <div class="my-5"></div>
     <!-- <template> -->
-    <table width="100%" scrolling="0" class="bordered-table py-16">
+    <table scrolling="0" width="100%" class="bordered-table py-16">
       <!-- <template> -->
       <thead>
         <tr>
           <th>ລ/ດ</th>
-          <th class="wider">ຊື່ຂະແໜງ</th>
+          <th class="wider">ຊື່ສໍານັກງານອົງການ</th>
           <th class="rotate">
-            <div>ຈໍານວນຫົວໜ້າຂະແໜງ</div>
+            <div>ຈໍານວນກົມ</div>
           </th>
           <th class="rotate">
-            <div>ຈໍານວນຄະນະຂະແໜງ</div>
+            <div>ຈໍານວນຫົວໜ້າກົມ</div>
           </th>
+          <th class="rotate">
+            <div>ຈໍານວນຄະນະກົມ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈໍານວນພະແນກ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈໍານວນຫົວໜ້າພະແນກ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈໍານວນຄະນະພະແນກ</div>
+          </th>
+          <!-- <th class="rotate">
+                <div>ຈໍານວນພະແນກ ເພີ່ມ/ຫຼຸດ</div>
+              </th>
+              <th class="rotate">
+                <div>ຈໍານວນຂະແໜງ ເພີ່ມ/ຫຼຸດ</div>
+              </th> -->
         </tr>
       </thead>
       <tbody style="text-align: center">
         <tr v-for="(item, index) in listing" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.boss }}</td>
-              <td>{{ item.subBoss }}</td>
-            </tr>
+          <td>{{ index + 1 }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.children.pdoCount }}</td>
+          <td>{{ item.children.headPdoCount }}</td>
+          <td>{{ item.children.subHeadPdoCount }}</td>
+          <td>{{ item.children.departmentCounting }}</td>
+          <td>{{ item.children.headDepartmentCounting }}</td>
+          <td>{{ item.children.subHeadDepartmentCounting }}</td>
+          <!-- <td></td>
+              <td></td> -->
+        </tr>
         <tr>
+          <td></td>
           <td>ລວມ</td>
-          <td> {{ allSector.length }} ຂະແໜງ </td>
-              <td>{{ listing.reduce((sum, e) => sum + e.boss, 0) }} ຫົວໜ້າ</td>
-              <td>{{ listing.reduce((sum, e) => sum + e.subBoss, 0) }} ຄະນະ</td>
+          <td>
+            {{ listing.reduce((sum, e) => sum + e.children.pdoCount, 0) }}
+          </td>
+          <td>
+            {{ listing.reduce((sum, e) => sum + e.children.headPdoCount, 0) }}
+          </td>
+          <td>
+            {{
+              listing.reduce((sum, e) => sum + e.children.subHeadPdoCount, 0)
+            }}
+          </td>
+          <td>
+            {{
+              listing.reduce((sum, e) => sum + e.children.departmentCounting, 0)
+            }}
+          </td>
+          <td>
+            {{
+              listing.reduce(
+                (sum, e) => sum + e.children.headDepartmentCounting,
+                0
+              )
+            }}
+          </td>
+          <td>
+            {{
+              listing.reduce(
+                (sum, e) => sum + e.children.subHeadDepartmentCounting,
+                0
+              )
+            }}
+          </td>
+          <!-- <td>0</td>
+              <td>0</td> -->
         </tr>
       </tbody>
+      <!-- </template> -->
     </table>
-
+    <!-- </template> -->
     <v-row class="mt-16">
       <v-col cols="6"> </v-col>
       <v-col cols="6" class="d-flex justify-end">
-        <v-btn
-          color="blue"
-          class="mx-3 white--text"
-          @click="$router.push('/reports/rural/printData')"
-        >
-          <v-icon>mdi-printer</v-icon> print</v-btn
-        >
-
-        <download-excel
-          class="download"
-          :header="e_headers"
-          worksheet="ລາຍງານ"
-          :fetch="download"
-          :name="title"
-          :before-finish="finishDownload"
-        >
-          <v-btn color="primary" dark>
-            <v-icon left small>mdi-download</v-icon>
-            ດາວໂຫຼດ Excel
-          </v-btn>
-        </download-excel>
+        <v-btn color="red" outlined @click="$router.back()">ຍົກເລິກ</v-btn>
+          <v-btn color="primary" @click="printData">ດາວໂຫຼດ</v-btn>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 export default {
+  layout: 'Black',
   data() {
     return {
-      pid: this.$cookies.get("pid"),
-      id: this.$cookies.get("userId"),
-      allSector: [],
-      allEmployee: [],
-      listing:[],
+      search: "",
       e_headers: "ລາຍງານ",
       title:
         "ລາຍງານ" +
@@ -121,59 +159,111 @@ export default {
           },
         ],
       ],
+      allMinistry: [],
+      allDepartment: [],
+      allEmployee: [],
+      allDepartmentOga: [],
     };
   },
+  mounted() {
+    this.getMinistry();
+    this.$store.dispatch("user/getAdmin");
+  },
   computed: {
-    listing1() {
-      const list = this.allSector.map((el) => {
-        const filteredSectors = this.allSector.filter((sector) => {
-          return sector.id === el.id
-        });
-        // console.log("==============:", filteredSectors);
+    listing() {
+      const allMinistry = this.allMinistry.map((el) => {
+        const pdoCount = this.allDepartmentOga.filter(
+          (e) => e.ministry_id === el.id
+        );
+
         const filterHeadFromAllEmployee = this.allEmployee.filter((e) => {
           if (e.position === "ຫົວໜ້າ") {
-            if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
+            if (pdoCount.some((pdoEl) => pdoEl.id === e.from_db_id)) {
               return true;
             }
             return false;
           }
           return false;
         });
-        const subHeadFromAllEmployee = this.allEmployee.filter((e) => {
+
+        const filterSubHeadFromAllEmployee = this.allEmployee.filter((e) => {
           if (e.position === "ຄະນະ") {
-            if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
+            if (pdoCount.some((pdoEl) => pdoEl.id === e.from_db_id)) {
               return true;
             }
             return false;
           }
           return false;
         });
-        return {
-          title: el.sector_title,
-          boss: filterHeadFromAllEmployee.length,
-          subBoss: subHeadFromAllEmployee.length,
+        const departmentCounting = this.allDepartment.filter((e) => {
+          if (
+            pdoCount.some((pdoEl) => pdoEl.id === e.department_organization_id)
+          ) {
+            return true;
+          }
+          return false;
+        });
+        const headDepartmentCounting = this.allEmployee.filter((e) => {
+          if (e.position === "ຫົວໜ້າ") {
+            if (departmentCounting.some((dEl) => dEl.id === e.from_db_id)) {
+              return true;
+            }
+            return false;
+          }
+        });
+        const subHeadDepartmentCounting = this.allEmployee.filter((e) => {
+          if (e.position === "ຄະນະ") {
+            if (departmentCounting.some((dEl) => dEl.id === e.from_db_id)) {
+              return true;
+            }
+            return false;
+          }
+        });
+
+        const returnObj = {
+          name: el.ministry_title,
+          id: el.id,
+          children: {
+            pdoCount: pdoCount.length,
+            headPdoCount: filterHeadFromAllEmployee.length,
+            subHeadPdoCount: filterSubHeadFromAllEmployee.length,
+            departmentCounting: departmentCounting.length,
+            headDepartmentCounting: headDepartmentCounting.length,
+            subHeadDepartmentCounting: subHeadDepartmentCounting.length,
+          },
         };
+        return returnObj;
       });
-      return list;
+      return allMinistry;
     },
-  },
-  mounted() {
-    this.getData();
+    admin() {
+      return this.$store.state.user.admin;
+    },
   },
   methods: {
-    getData() {
-      this.$axios.get(`/sectorAllById/${this.id}`).then((res) => {
-        // console.log(res.data);
-        this.allSector = res?.data;
+    printData() {
+      window.print();
+    },
+    opendownload() {
+      this.dialog = true;
+    },
+    getMinistry() {
+      this.$axios.get("/ministry").then((res) => {
+        this.allMinistry = res.data;
       });
-
-      this.$axios.get(`/get-employee-userId/${this.id}`).then((res) => {
-        // console.log(res.data);
-        this.allEmployee = res?.data;
+      this.$axios.get("/department").then((res) => {
+        this.allDepartment = res.data;
+      });
+      this.$axios.get("/employee-report").then((res) => {
+        this.allEmployee = res.data;
+      });
+      this.$axios.get("/departmentOga").then((res) => {
+        this.allDepartmentOga = res.data;
       });
     },
+    
     async download() {
-     try {
+      try {
         var list = [],
           index = 0;
         for (let i = 0; i < this.listing.length; i++) {
@@ -181,16 +271,24 @@ export default {
           index = parseInt(i) + 1;
           var obj = {
             ລຳດັບ: index,
-            ຊື່ຂະແໜງ: el.sector_title,
-            ຈໍານວນຫົວໜ້າຂະແໜງ: el.boss,
-            ຈໍານວນຄະນະຂະແໜງ: el.subBoss,
+            ຊື່ສໍານັກງານອົງການ: el.name,
+            ຈໍານວນກົມ: el.children.pdoCount,
+            ຈໍານວນຫົວໜ້າກົມ: el.children.headPdoCount,
+            ຈໍານວນຄະນະກົມ: el.children.subHeadPdoCount,
+            ຈໍານວນພະແນກ: el.children.departmentCounting,
+            ຈໍານວນຫົວໜ້າພະແນກ: el.children.headDepartmentCounting,
+            ຈໍານວນຄະນະພະແນກ: el.children.subHeadDepartmentCounting,
+            ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
           };
+          
+       
           list.push(obj);
         }
         return list;
-     } catch (error) {
-      console.log(error);
-     }
+      } catch (error) {
+        console.log(error);
+      }
+    
     },
     finishDownload() {
       this.$toast.success("ດາວໂຫຼດຂໍ້ມູນເຂົ້າ excel ສຳເລັດແລ້ວ...");
@@ -198,6 +296,7 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .bordered-table {
   border-collapse: collapse;
@@ -212,7 +311,7 @@ td {
 .rotate {
   height: 200px;
   /* padding-block: 100px; */
-  transform: rotate(-90deg);
+  /* transform: rotate(-90deg); */
   /* border: none; */
 }
 </style>

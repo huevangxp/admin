@@ -129,7 +129,7 @@
                       <v-icon>mdi-account-group</v-icon>
                     </v-btn>
                   </template>
-                  <span>ເບີ່ງພະນັກງານ</span>
+                  <span>ເບີ່ງສະມາຊິກ</span>
                 </v-tooltip>
                 <v-tooltip bottom v-if="role === 'ministry_admin'">
                   <template v-slot:activator="{ on, attrs }">
@@ -144,7 +144,7 @@
                       <v-icon>mdi-account-multiple-plus</v-icon>
                     </v-btn>
                   </template>
-                  <span>ສ້າງພະນັກງານ</span>
+                  <span>ສ້າງສະມາຊິກ</span>
                 </v-tooltip>
               </div>
             </div>
@@ -165,7 +165,7 @@
             <v-icon color="white">mdi-account</v-icon>
           </v-avatar>
           <v-toolbar-title
-            >ພະນັກງານຂອງ{{
+            >ສະມາຊິກຂອງ{{
               departmentDOData?.department_organization_title
             }}</v-toolbar-title
           >
@@ -209,7 +209,7 @@
         <div v-else class="mt-5 mx-5">
           <v-row>
             <v-col
-              v-for="(item, index) in employeeDepartmentDO?.rows"
+              v-for="(item, index) in employeeDepartmentDO"
               :key="index"
               cols="12"
             >
@@ -419,7 +419,7 @@ export default {
         },
         { text: "ຊື່ກົມ", value: "department_organization_title" },
         { text: "ຈັດການ", value: "actions" },
-        { text: "ຈັດການພະນັກງານ", value: "employee" },
+        { text: "ຈັດການສະມາຊິກ", value: "employee" },
       ],
     };
   },
@@ -446,19 +446,16 @@ export default {
     async deleteDOEm() {
       try {
         await this.$axios
-          .delete(`/department-organization-member/${this.doId}`)
+          .delete(`/delete-employee/${this.doId}`)
           .then((res) => {
             console.log(res.data);
             this.deleteEmDialog = false;
             this.$toast.success("ສຳເລັດ");
           })
-          .catch((err) => {
-            this.$toast.error("ບໍ່ສຳມາດລຶບໄດ້");
-          });
-        await this.$axios
-          .get(`/get-organization-member/${this.departmentDOData.id}`)
+           this.$axios
+          .get(`/employee?id=${this.departmentDOData.id}&level=1&table_name=ກົມ`)
           .then((res) => {
-            console.log(res.data);
+            // console.log(res.data);
             this.employeeDepartmentDO = res?.data;
           });
       } catch (error) {
@@ -523,11 +520,9 @@ export default {
     async openEmployee(item) {
       try {
         this.departmentDOData = item;
-        console.log(item.id);
         await this.$axios
-          .get(`/get-organization-member/${item.id}`)
+          .get(`/employee?id=${item.id}&level=1&table_name=ກົມ`)
           .then((res) => {
-            // console.log(res.data);
             this.employeeDepartmentDO = res?.data;
           });
         this.dialogEmployee = true;

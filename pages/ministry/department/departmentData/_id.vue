@@ -199,7 +199,7 @@ export default {
           value: "idx",
         },
         { text: "ຊື່ກົມ", value: "department_organization_title" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
         { text: "", value: "data-table-expand" },
       ],
     };

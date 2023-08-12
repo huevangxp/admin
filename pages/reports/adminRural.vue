@@ -80,7 +80,7 @@
           { text: "ສິດ", value: "role" },
           { text: "ຈັດການພະແນກ", value: "title" },
           { text: "ວັນທີສ້າງ", value: "createdAt" },
-          { text: "", value: "actions" },
+          { text: "ຈັດການ", value: "actions" },
         ],
       };
     },

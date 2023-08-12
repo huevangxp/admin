@@ -29,7 +29,7 @@
       </v-col>
       <v-col cols="12">
         <div class="text-center">
-          <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງຖີ່ນ ຂະແໜງ</span>
+          <span class="px-10 font-weight-bold">ສະຖິຕິກົງຈັກຕັ້ງຂ້ັນທ້ອງຖີ່ນ ເມືອງ</span>
           <span class="font-weight-bold"
             >ປີ: {{ $moment(Date()).format("YYYY") }}</span
           >
@@ -44,27 +44,47 @@
       <thead>
         <tr>
           <th>ລ/ດ</th>
-          <th class="wider">ຊື່ຂະແໜງ</th>
+          <th class="wider">ຊື່ເມືອງ</th>
           <th class="rotate">
-            <div>ຈໍານວນຫົວໜ້າຂະແໜງ</div>
+            <div>ຈຳນວນຫ້ອງການ</div>
           </th>
           <th class="rotate">
-            <div>ຈໍານວນຄະນະຂະແໜງ</div>
+            <div>ຈຳນວນຫົວໜ້າຫ້ອງການ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈຳນວນຄະນະຫ້ອງການ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈຳນວນໜ່ວຍງານ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈຳນວນຫົວໜ້າໜ່ວຍງານ</div>
+          </th>
+          <th class="rotate">
+            <div>ຈຳນວນຄະນະໜ່ວຍງານ</div>
           </th>
         </tr>
       </thead>
       <tbody style="text-align: center">
         <tr v-for="(item, index) in listing" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.boss }}</td>
-              <td>{{ item.subBoss }}</td>
+              <td width="50px">{{ index + 1 }}</td>
+              <td width="100px">{{ item.title }}</td>
+              <td>{{ item.office }}</td>
+              <td>{{ item.office_boss }}</td>
+              <td>{{ item.office_subBoss }}</td>
+              <td>{{ item.unit }}</td>
+              <td>{{ item.unit_boss }}</td>
+              <td>{{ item.unit_subBoss }}</td>
             </tr>
         <tr>
-          <td>ລວມ</td>
-          <td> {{ allSector.length }} ຂະແໜງ </td>
-              <td>{{ listing.reduce((sum, e) => sum + e.boss, 0) }} ຫົວໜ້າ</td>
-              <td>{{ listing.reduce((sum, e) => sum + e.subBoss, 0) }} ຄະນະ</td>
+          <td height="50px">ລວມ</td>
+          <td> {{ allCity.length }} ເມືອງ </td>
+              <td>{{ listing.reduce((sum, e) => sum + e.office, 0) }} </td>
+              <td>{{ listing.reduce((sum, e) => sum + e.office_boss, 0) }} </td>
+              <td>{{ listing.reduce((sum, e) => sum + e.office_subBoss, 0) }} </td>
+              <td>{{ listing.reduce((sum, e) => sum + e.unit, 0) }} </td>
+              <td>{{ listing.reduce((sum, e) => sum + e.unit_boss, 0) }} </td>
+              <td>{{ listing.reduce((sum, e) => sum + e.unit_subBoss, 0) }} </td>
         </tr>
       </tbody>
     </table>
@@ -72,67 +92,39 @@
     <v-row class="mt-16">
       <v-col cols="6"> </v-col>
       <v-col cols="6" class="d-flex justify-end">
-        <v-btn
-          color="blue"
-          class="mx-3 white--text"
-          @click="$router.push('/reports/rural/printData')"
-        >
-          <v-icon>mdi-printer</v-icon> print</v-btn
-        >
-
-        <download-excel
-          class="download"
-          :header="e_headers"
-          worksheet="ລາຍງານ"
-          :fetch="download"
-          :name="title"
-          :before-finish="finishDownload"
-        >
-          <v-btn color="primary" dark>
-            <v-icon left small>mdi-download</v-icon>
-            ດາວໂຫຼດ Excel
-          </v-btn>
-        </download-excel>
+        <v-btn color="red" outlined @click="$router.back()" class="mx-2">ຍົກເລິກ</v-btn>
+          <v-btn color="primary" @click="printData">ດາວໂຫຼດ</v-btn>
       </v-col>
     </v-row>
   </div>
 </template>
 <script>
 export default {
+  layout:'Black',
   data() {
     return {
       pid: this.$cookies.get("pid"),
       id: this.$cookies.get("userId"),
-      allSector: [],
+      allCity: [],
+      allUnit: [],
       allEmployee: [],
-      listing:[],
-      e_headers: "ລາຍງານ",
-      title:
-        "ລາຍງານ" +
-        new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-          .toISOString()
-          .substr(0, 10) +
-        ".xls",
-      json_meta: [
-        [
-          {
-            key: "charset",
-            value: "utf-8",
-          },
-        ],
-      ],
+      allOffices:[]
     };
   },
   computed: {
-    listing1() {
-      const list = this.allSector.map((el) => {
-        const filteredSectors = this.allSector.filter((sector) => {
-          return sector.id === el.id
+    listing() {
+      const list = this.allCity.map((el) => {
+        const filteredSectors = this.allCity.filter((city) => {
+          return city.id === el.id
         });
-        // console.log("==============:", filteredSectors);
+
+        const filterOffice = this.allOffices.filter((e) => {
+         return e.city_id == el.id
+        })
+
         const filterHeadFromAllEmployee = this.allEmployee.filter((e) => {
           if (e.position === "ຫົວໜ້າ") {
-            if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
+            if (filterOffice.some((sid) => sid.id == e.from_db_id)) {
               return true;
             }
             return false;
@@ -141,17 +133,48 @@ export default {
         });
         const subHeadFromAllEmployee = this.allEmployee.filter((e) => {
           if (e.position === "ຄະນະ") {
-            if (filteredSectors.some((sid) => sid.id == e.from_db_id)) {
+            if (filterOffice.some((sid) => sid.id == e.from_db_id)) {
               return true;
             }
             return false;
           }
           return false;
         });
+
+        const filterUnit = this.allUnit.filter((e) => {
+          if (filterOffice.some((sid) => sid.id == e.office_id)) {
+              return true;
+            }
+        })
+
+        const unitHeadFromAllEmployee = this.allEmployee.filter((e) => {
+          if (e.position === "ຫົວໜ້າ") {
+            if (filterOffice.some((sid) => sid.id == e.from_db_id)) {
+              return true;
+            }
+            return false;
+          }
+          return false;
+        });
+        const unitSubHeadFromAllEmployee = this.allEmployee.filter((e) => {
+          if (e.position === "ຄະນະ") {
+            if (filterOffice.some((sid) => sid.id == e.from_db_id)) {
+              return true;
+            }
+            return false;
+          }
+          return false;
+        });
+
         return {
-          title: el.sector_title,
-          boss: filterHeadFromAllEmployee.length,
-          subBoss: subHeadFromAllEmployee.length,
+          title: el.title,
+          office: filterOffice.length,
+          office_boss: filterHeadFromAllEmployee.length,
+          office_subBoss: subHeadFromAllEmployee.length,
+          unit: filterUnit.length,
+          unit_boss: unitHeadFromAllEmployee.length,
+          unit_subBoss: unitSubHeadFromAllEmployee.length
+
         };
       });
       return list;
@@ -161,40 +184,32 @@ export default {
     this.getData();
   },
   methods: {
+    printData() {
+      window.print();
+    },
     getData() {
-      this.$axios.get(`/sectorAllById/${this.id}`).then((res) => {
-        // console.log(res.data);
-        this.allSector = res?.data;
-      });
-
-      this.$axios.get(`/get-employee-userId/${this.id}`).then((res) => {
-        // console.log(res.data);
-        this.allEmployee = res?.data;
-      });
-    },
-    async download() {
-     try {
-        var list = [],
-          index = 0;
-        for (let i = 0; i < this.listing.length; i++) {
-          var el =  this.listing[i];
-          index = parseInt(i) + 1;
-          var obj = {
-            ລຳດັບ: index,
-            ຊື່ຂະແໜງ: el.sector_title,
-            ຈໍານວນຫົວໜ້າຂະແໜງ: el.boss,
-            ຈໍານວນຄະນະຂະແໜງ: el.subBoss,
-          };
-          list.push(obj);
-        }
-        return list;
-     } catch (error) {
-      console.log(error);
-     }
-    },
-    finishDownload() {
-      this.$toast.success("ດາວໂຫຼດຂໍ້ມູນເຂົ້າ excel ສຳເລັດແລ້ວ...");
-    },
+         this.$axios
+          .get(`/getToReport/${this.pid}`)
+          .then((res) => {
+            this.allCity = res?.data
+          });
+              this.$axios
+          .get(`/get-unit-to-report/${this.id}`)
+          .then((res) => {
+     
+            this.allUnit = res?.data.rows
+          });
+      this.$axios.get(`/get-employee-userId/${this.id}`).
+        then((res) => {
+          console.log(res.data);
+          this.allEmployee = res?.data
+        });
+      this.$axios.get(`/get-office-report/${this.id}`).
+        then((res) => {
+          console.log(res.data);
+            this.allOffices = res?.data
+          })
+      },
   },
 };
 </script>
@@ -216,3 +231,48 @@ td {
   /* border: none; */
 }
 </style>
+
+
+<!-- <template>
+  <div>
+    report sector {{ id }}
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      pid: this.$cookies.get('pid'),
+      id: this.$cookies.get('userId'),
+      allCity: [],
+      allSector: [],
+      allUnit: [],
+      allEmployee:[]
+    }
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+     getData() {
+         this.$axios
+          .get(`/getToReport/${this.pid}`)
+          .then((res) => {
+
+            this.allCity = res?.data
+          });
+              this.$axios
+          .get(`/get-unit-to-report/${this.id}`)
+          .then((res) => {
+     
+            this.allUnit = res?.data.rows
+          });
+      this.$axios.get(`/get-employee-userId/${this.id}`).
+        then((res) => {
+          console.log(res.data);
+            this.allEmployee = res?.data
+          })
+      },
+  }
+}
+</script> -->

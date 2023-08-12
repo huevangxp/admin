@@ -48,7 +48,7 @@ export default {
         },
         {
           icon: "mdi-account-multiple-plus",
-          title: "ຈັດການຂໍ້ມູນພະນັກງານທີ່ປະກອບກົງຈັກ",
+          title: "ຈັດການຂໍ້ມູນສະມາຊິກທີ່ປະກອບກົງຈັກ",
           to: "/dashboard/member",
          
         },

@@ -111,7 +111,7 @@
                     <v-icon>mdi-account-group</v-icon>
                   </v-btn>
                 </template>
-                <span>ເບີ່ງພະນັກງານ</span>
+                <span>ເບີ່ງສະມາຊິກ</span>
               </v-tooltip>
               <v-tooltip bottom v-if="role === 'ministry_admin'">
                 <template v-slot:activator="{ on, attrs }">
@@ -128,7 +128,7 @@
                     <v-icon>mdi-account-multiple-plus</v-icon>
                   </v-btn>
                 </template>
-                <span>ສ້າງພະນັກງານ</span>
+                <span>ສ້າງສະມາຊິກ</span>
               </v-tooltip>
             </div>
           </div>
@@ -250,7 +250,7 @@
             <v-icon color="white">mdi-account</v-icon>
           </v-avatar>
           <v-toolbar-title
-            >ພະນັກງານຂອງ {{ showData?.department_title }}</v-toolbar-title
+            >ສະມາຊິກຂອງ {{ showData?.department_title }}</v-toolbar-title
           >
           <v-spacer></v-spacer>
           <div>
@@ -397,8 +397,8 @@ export default {
         },
         { text: "ຊື່", value: "department_title" },
         { text: "ວັນທີ່ສ້າງ", value: "created_at" },
-        { text: "", value: "actions" },
-        { text: "", value: "employee" },
+        { text: "ຈັດການ", value: "actions" },
+        { text: "ຈັດການສະມາຊິກ", value: "employee" },
       ],
     };
   },
@@ -406,7 +406,6 @@ export default {
     this.seleteDepartment();
     this.getData();
   },
-
   computed: {
     id() {
       return this.$route.params.id;
@@ -434,14 +433,14 @@ export default {
     async deleteEm() {
       try {
         await this.$axios
-          .delete(`/department-member/${this.emId}`)
+          .delete(`/delete-employee/${this.emId}`)
           .then((res) => {
             this.$toast.success("ສຳເລັດ");
             this.openDeleteData = false;
           });
 
         await this.$axios
-          .get(`/departmentMember_department/${this.showData.id}`)
+          .get(`/employee?id=${this.showData.id}&level=2&table_name=ພະແນກ`)
           .then((res) => {
             this.dataView = res?.data;
           });
@@ -453,7 +452,7 @@ export default {
       this.showData = item;
       console.log(item.id);
       this.dialogEmployee = true;
-      this.$axios.get(`/departmentMember_department/${item.id}`).then((res) => {
+      this.$axios.get(`/employee?id=${item.id}&level=2&table_name=ພະແນກ`).then((res) => {
         this.dataView = res?.data;
       });
     },

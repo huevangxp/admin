@@ -21,7 +21,7 @@
       </v-col>
       <v-col cols="4"> </v-col>
       <v-col cols="4" class="d-flex justify-content-end">
-       
+       <v-btn color="red" dark @click="$router.back()">ຍົກເລິກ</v-btn>
       </v-col>
     </v-row>
     <v-data-table
@@ -93,9 +93,9 @@ export default {
           value: "idx",
         },
         { text: "ຊື່ພະແນກ", value: "title" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
         { text: "", value: "data-table-expand" },
-        { text: "", value: "employee" },
+        { text: "ຈັດການສະມາຊິກ", value: "employee" },
       ],
      
     

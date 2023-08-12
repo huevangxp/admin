@@ -79,7 +79,7 @@
               value: "id",
             },
             { text: "ຊື່ພະແນກ", value: "name" },
-            { text: "", value: "actions" },
+            { text: "ຈັດການ", value: "actions" },
             { text: "", value: "data-table-expand" },
           ],
           desserts: [

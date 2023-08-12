@@ -18,7 +18,7 @@ export default {
         { text: "Last Name", value: "lastname" },
         { text: "Position", value: "position" },
         { text: "Status", value: "status" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
       items: [
         {

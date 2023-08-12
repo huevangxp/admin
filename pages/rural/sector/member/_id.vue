@@ -1,7 +1,7 @@
 <template>
     <div>
       <h1 class="my-10 ml-3">
-        ຂໍ້ມູນພະນັກງານທັງໜົດ
+        ຂໍ້ມູນສະມາຊິກທັງໜົດ
     
       </h1>
       <v-card elevation="0" class="mx-3">
@@ -11,7 +11,6 @@
               v-model="search"
               name="ຄົ້ນຫາ"
               label="ຄົ້ນຫາ"
-              id="id"
               dense
               outlined
               append-icon="mdi-magnify"
@@ -87,7 +86,8 @@
     data() {
       return {
         role: this.$cookies.get("role"),
-            title: this.$cookies.get("title"),
+          title: this.$cookies.get("title"),
+            userId: this.$cookies.get("userId"),
             dataPrepare: [],
             search:'',
         dessertHeaders: [
@@ -123,8 +123,9 @@
                 console.log(error);
             }
         },
-      getData() {
-          this.$axios.get(`/get-all-member?status=0`).then((res) => {
+        getData() {
+          this.$axios.get(`/get-all-member?status=0&userId=${this.userId}`).then((res) => {
+            console.log(res.data);
           this.dataPrepare = res?.data;
         });
       },

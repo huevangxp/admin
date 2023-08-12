@@ -86,40 +86,21 @@
       </table>
   
       <v-row class="mt-16">
-        <v-col cols="6"> </v-col>
-        <v-col cols="6" class="d-flex justify-end">
-          <v-btn
-            color="blue"
-            class="mx-3 white--text"
-            @click="$router.push('/reports/ministry/printData')"
-          >
-            <v-icon>mdi-printer</v-icon> print</v-btn
-          >
-  
-          <download-excel
-            class="download"
-            :header="e_headers"
-            worksheet="ລາຍງານ"
-            :fetch="download"
-            :name="title"
-            :before-finish="finishDownload"
-          >
-            <v-btn color="primary" dark>
-              <v-icon left small>mdi-download</v-icon>
-              ດາວໂຫຼດ Excel
-            </v-btn>
-          </download-excel>
-        </v-col>
-      </v-row>
+      <v-col cols="6"> </v-col>
+      <v-col cols="6" class="d-flex justify-end">
+        <v-btn color="red" outlined @click="$router.back()" class="mx-2">ຍົກເລິກ</v-btn>
+          <v-btn color="primary" @click="printData">ດາວໂຫຼດ</v-btn>
+      </v-col>
+    </v-row>
     </div>
   </template>
   <script>
   export default {
+    layout: 'Black',
     data() {
       return {
         pid: this.$cookies.get("pid"),
         id: this.$cookies.get("userId"),
-        listing:[],
         allDepartment: [],
         dataDO: [],
         allEmployee: [],
@@ -141,7 +122,7 @@
       };
     },
     computed: {
-      listing1() {
+      listing() {
         const list = this.dataDO.map((el) => {
           const filteredDO = this.dataDO.filter((doId) => {
             return doId.id === el.id
@@ -207,6 +188,9 @@
       this.getData();
     },
     methods: {
+      printData() {
+      window.print();
+    },
           getData() {
               this.$axios
                   .get(`/department-report/${this.id}`)
@@ -237,12 +221,13 @@
             index = parseInt(i) + 1;
             var obj = {
               ລຳດັບ: index,
-              ຊື່ກົມ: el.title,
-              ຈຳນວນຫົວໜ້າກົມ: el.do_boss,
-              ຈຳນວນຄະນະກົມ: el.do_suBoss,
-              ຈຳນວນພະແນກ: el.department,
-              ຈຳນວນຫົວໜ້າພະແນກ: el.department_boss,
-              ຈຳນວນຄະນະພະແນກ: el.department_suBoss,
+              ຊື່ເມືອງ: el.title,
+              ຈຳນວນຫ້ອງການ: el.office,
+              ຈຳນວນຫົວໜ້າຫ້ອງການ: el.office_boss,
+              ຈຳນວນຄະນະຫ້ອງການ: el.office_subBoss,
+              ຈຳນວນໜ່ວຍງານ: el.unit,
+              ຈຳນວນຫົວໜ້າໜ່ວຍງານ: el.unit_boss,
+              ຈຳນວນຄະນະໜ່ວຍງານ: el.unit_subBoss,
               // ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
             };
             list.push(obj);

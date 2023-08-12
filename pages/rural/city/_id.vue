@@ -19,7 +19,7 @@
           >ຍົກເລິກ</v-btn
         >
         <v-btn
-          v-if="role === 'rural_admin'"
+          v-if="role === 'super_admin'"
           outlined
           color="primary"
           @click="getCity"
@@ -63,7 +63,6 @@
           :search="search"
           item-key="name"
           class="elevation-1"
-          @click:row="moveToCityOffice"
         >
           <template #[`item.idx`]="{ index }">
             <div>
@@ -76,7 +75,7 @@
             </div>
           </template>
           <template #[`item.actions`]="{ item }">
-            <div v-if="role === 'rural_admin'" class="d-flex">
+            <div v-if="role === 'super_admin'" class="d-flex">
               <v-tooltip bottom>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -117,10 +116,10 @@
         <v-card-title class="primary white--text">ສ້າງເມືອງ</v-card-title>
         <v-divider></v-divider>
         <v-card-text class="mt-3">
-          <v-text-field  class="pt-10" hide-details="auto" v-model="office_title" dense outlined label="ປ້ອນຊື່ຫ້ອງການ"></v-text-field>
+          <!-- <v-text-field  class="pt-10" hide-details="auto" v-model="office_title" dense outlined label="ປ້ອນຊື່ຫ້ອງການ"></v-text-field> -->
           <v-select
            hide-details="auto"
-           class="pt-4"
+           class="pt-10"
             v-model="title"
             label="ເລືອກຊື່ເມືອງ"
             :items="city"
@@ -153,7 +152,7 @@
             class="py-4"
             outlined
             dense
-            v-model="cityData.district_title"
+            v-model="cityData.title"
           ></v-text-field>
         </v-card-text>
         <v-divider></v-divider>
@@ -202,7 +201,6 @@ export default {
       dialog: false,
       search: "",
       title: "",
-      office_title:"",
       cityData: {},
       role: this.$cookies.get("role"),
       city: [],
@@ -214,10 +212,9 @@ export default {
           sortable: false,
           value: "idx",
         },
-        { text: "ຫ້ອງການ", value: "office_title" },
-        { text: "ເມືອງ", value: "district_title" },
+        { text: "ເມືອງ", value: "title" },
         { text: "ວັນທີ່ສ້າງ", value: "created_at" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
     };
   },
@@ -263,9 +260,9 @@ export default {
     async createCity() {
       try {
         const data = {
-          province_departments_id: this.id,
+          province_id: this.id,
           title: this.title,
-          office_title:this.office_title
+          pid:this.pid
         };
         await this.$axios.post("/district", data).then((res) => {
           this.dialog = false;
@@ -278,9 +275,9 @@ export default {
         console.log(error);
       }
     },
-    moveToCityOffice(item) {
-      this.$router.push(`/rural/cityUnit/${item.id}`);
-    },
+    // moveToCityOffice(item) {
+    //   this.$router.push(`/rural/cityUnit/${item.id}`);
+    // },
     async getCity() {
       let id = this.pid;
       await this.$axios.get(`/address/city/${id}`).then((res) => {

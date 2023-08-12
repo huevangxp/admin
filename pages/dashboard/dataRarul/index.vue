@@ -18,8 +18,7 @@
         >
 
         <v-btn outlined color="primary" dark @click="dialog = true"
-          >ສ້າງແຂວງ</v-btn
-        >
+          >ສ້າງແຂວງ</v-btn>
       </v-col>
     </v-row>
     <v-data-table
@@ -29,8 +28,8 @@
       :footer-props="{ 'items-per-page-options': [10, 25, -1] }"
       fixed-header
       :search="search"
-      @click:row="moveCreateDepartment"
-    >
+      >
+      <!-- @click:row="moveCreateDepartment" -->
       <template #item.profile="{ item }">
         <div>
           <v-avatar size="70">
@@ -51,6 +50,14 @@
         <div>
           {{ $moment(item.createdAt).format("DD/MM/YYYY") }}
         </div>
+      </template>
+      <template #item.btn="{item}">
+
+        <div>
+          <v-btn outlined small @click.stop="moveCreateDepartment(item)">ພະແນກ</v-btn>
+          <v-btn outlined small @click.stop="createCity(item)">ເມືອງ</v-btn>
+        </div>
+
       </template>
       <template #item.actions="{ item }">
         <div>
@@ -217,6 +224,7 @@ export default {
         { text: "ຮູບພາບ", value: "profile" },
         { text: "ຊື່ກະຊວງ", value: "province_title" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
+        { text: "", value: "btn" },
         { text: "", value: "actions" },
       ],
     };
@@ -237,6 +245,9 @@ export default {
     });
   },
   methods: {
+    createCity(item) {
+      this.$router.push(`/rural/city?id=${item.id}&pid=${item.pid}`)
+    },
     moveCreateDepartment(item) {
       this.$router.push(`/dashboard/department/${item.id}`);
     },

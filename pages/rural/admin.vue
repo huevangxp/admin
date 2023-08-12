@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- {{ items }} -->
-        <h1 class="my-6">admin ຂອງທ້ອງຖີ່ມ </h1>
+        <h1 class="my-6">admin ຂອງທ້ອງຖີ່ນ </h1>
         <v-row>
           <v-col cols="4">
             <v-text-field
@@ -171,7 +171,7 @@ export default {
                 { text: "", value: "role" },
                 { text: "", value: "status" },
                 { text: "", value: "created_at" },
-                { text: "", value: "actions" },
+                { text: "ຈັດການ", value: "actions" },
             ]
 
         }

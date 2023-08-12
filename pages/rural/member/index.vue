@@ -1,11 +1,9 @@
 <template>
     <div>
       <h1 class="my-10 ml-3">
-        ຈັດການຂໍ້ມູນພະນັກງານທັງໜົດ
-        <!-- <span class="primary--text" style="border-bottom: 1px solid #000">{{
-          title
-        }}</span> -->
+        ຈັດການຂໍ້ມູນສະມາຊິກທັງໜົດ
       </h1>
+      <!-- {{ id }} -->
       <v-card elevation="0" class="mx-3">
         <v-row>
           <v-col cols="4">
@@ -21,15 +19,15 @@
           </v-col>
           <v-col cols="4"> </v-col>
           <v-col cols="4" class="d-flex justify-end">
-            <v-btn class="mx-2" outlined color="primary" to="/dashboard/member/create"
-              >ສ້າງພະນັກງານ</v-btn>
-            <v-btn color="pick" dark to="/dashboard/member/oldMember"
-              >ເບີ່ງພະນັກງານເກົ່າ</v-btn>
+            <v-btn class="mx-2" outlined color="primary" to="/rural/member/create"
+              >ສ້າງສະມາຊິກ</v-btn>
+            <v-btn color="pick" dark to="/rural/member/oldMember"
+              >ເບີ່ງສະມາຊິກເກົ່າ</v-btn>
           </v-col>
         </v-row>
       </v-card>
       <v-card elevation="0">
-        <v-card-text v-if="departmentDO?.length <= 0">
+        <v-card-text v-if="dataPrepare?.length <= 0">
           <v-card elevation="0">
             <v-card-text>
               <v-data-table
@@ -106,7 +104,7 @@
                         color="green"
                         dark
                         v-on="on"
-                        @click.stop="$router.push(`/dashboard/member/update/${item.id}`)"
+                        @click.stop="$router.push(`/rural/member/update/${item.id}`)"
                       >
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
@@ -166,6 +164,7 @@
         mData: {},
         role: this.$cookies.get("role"),
         title: this.$cookies.get("title"),
+        id:this.$cookies.get("userId"),
         doId: "",
         search: "",
         dataPrepare: [],
@@ -185,7 +184,7 @@
           { text: "ຕຳແໜງ", value: "position" },
           { text: "ສະຖະນາ", value: "status" },
           { text: "ປະຫັວດ", value: "details" },
-          { text: "", value: "actions" },
+          { text: "ຈັດການ", value: "actions" },
         ],
       };
     },
@@ -213,7 +212,7 @@
       },
   
       getData() {
-          this.$axios.get(`/get-all-member?status=0`).then((res) => {
+          this.$axios.get(`/get-all-member?status=0&userId=${this.id}`).then((res) => {
             console.log(res.data);
           this.dataPrepare = res?.data;
         });

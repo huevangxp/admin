@@ -6,7 +6,7 @@
           <v-avatar class="mr-3 pa-1" size="40" color="teal">
             <v-icon class="white">mdi-account-edit</v-icon>
           </v-avatar>
-          ອັບເດດພະນັກງານ</v-card-title
+          ອັບເດດສະມາຊິກ</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text class="d-none">
@@ -49,6 +49,7 @@
             </v-col>
             <v-col cols="12" md="6">
               <v-text-field
+              type="number"
                 v-model="user.phone"
                 label="ເບີໂທ"
                 outlined
@@ -58,14 +59,17 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field
+              <v-select
                 v-model="user.position"
                 label="ຕຳແໜງ"
+                :items="bossRole"
+                item-text="value"
+                item-value="value"
                 outlined
                 dense
                 hide-details="auto"
                 :rules="[(v) => !!v || 'ຈຳເປັນ']"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -113,6 +117,10 @@ export default {
       image: "",
       imageUrl: "",
       loading: false,
+      bossRole: [
+        {id:1, value:'ຫົວໜ້າ'},
+        {id:1, value:'ຄະນະ'}
+      ]
     };
   },
   mounted() {

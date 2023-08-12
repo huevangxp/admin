@@ -1,7 +1,7 @@
 <template>
     <div>
       <h1 class="my-10 ml-3">
-        ຈັດການຂໍ້ມູນພະນັກງານເກົ່າ
+        ຈັດການຂໍ້ມູນສະມາຊິກເກົ່າ
         <span class="primary--text" style="border-bottom: 1px solid #000">{{
           title
         }}</span>
@@ -181,7 +181,7 @@
           { text: "ຕຳແໜງ", value: "position" },
           { text: "ສະຖະນາ", value: "status" },
           { text: "ປະຫັວດ", value: "details" },
-          { text: "", value: "actions" },
+          { text: "ຈັດການ", value: "actions" },
         ],
       };
     },

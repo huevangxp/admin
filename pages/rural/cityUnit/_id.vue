@@ -113,7 +113,7 @@
                       <v-icon>mdi-account-group</v-icon>
                     </v-btn>
                   </template>
-                  <span>ເບີ່ງພະນັກງານ</span>
+                  <span>ເບີ່ງສະມາຊິກ</span>
                 </v-tooltip>
                 <v-tooltip bottom v-if="role === 'rural_admin'">
                   <template v-slot:activator="{ on, attrs }">
@@ -128,7 +128,7 @@
                       <v-icon>mdi-account-multiple-plus</v-icon>
                     </v-btn>
                   </template>
-                  <span>ສ້າງພະນັກງານ</span>
+                  <span>ສ້າງສະມາຊິກ</span>
                 </v-tooltip>
               </div>
             </div>
@@ -203,7 +203,7 @@
             <v-icon color="white">mdi-account</v-icon>
           </v-avatar>
           <v-toolbar-title
-            >ພະນັກງານຂອງ{{ unitData?.unit_title }}</v-toolbar-title
+            >ສະມາຊິກຂອງ{{ unitData?.unit_title }}</v-toolbar-title
           >
           <v-spacer></v-spacer>
           <div>
@@ -212,7 +212,7 @@
             </v-btn>
           </div>
         </v-toolbar>
-        <div v-if="unitGetData?.rows?.length <= 0">
+        <div v-if="unitGetData?.length <= 0">
           <v-card elevation="0">
             <v-card-text>
               <v-data-table
@@ -245,7 +245,7 @@
         <div v-else class="mt-5 mx-5">
           <v-row>
             <v-col
-              v-for="(item, index) in unitGetData?.rows"
+              v-for="(item, index) in unitGetData"
               :key="index"
               cols="12"
             >
@@ -394,9 +394,9 @@ export default {
           value: "idx",
         },
         { text: "ຊື່ໜ່ວຍງານ", value: "unit_title" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
         { text: "", value: "data-table-expand" },
-        { text: "", value: "employee" },
+        { text: "ຈັດການສະມາຊິກ", value: "employee" },
       ],
 
       city: [
@@ -424,14 +424,14 @@ export default {
     async deleteUnitEm() {
       try {
         await this.$axios
-          .delete(`/delete-unit-member/${this.uid}`)
+          .delete(`/delete-employee/${this.uid}`)
           .then((res) => {
             console.log(res.data);
             this.openDeleteEmData = false;
             this.$toast.success("ສຳເລັດ");
           });
         this.$axios
-          .get(`/get-unit-all-byId/${this.unitData.id}`)
+          .get(`/employee?id=${this.unitData.id}&level=5&table_name=ໜ່ວຍງານ`)
           .then((res) => {
             this.unitGetData = res?.data;
           });
@@ -447,7 +447,7 @@ export default {
       this.unitData = item;
       console.log(item.id);
       this.dialogEmployee = true;
-      this.$axios.get(`/get-unit-all-byId/${item.id}`).then((res) => {
+      this.$axios.get(`/employee?id=${item.id}&level=5&table_name=ໜ່ວຍງານ`).then((res) => {
         this.unitGetData = res?.data;
       });
     },

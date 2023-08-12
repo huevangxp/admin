@@ -15,7 +15,9 @@
       </v-col>
       <v-col cols="4"> </v-col>
       <v-col cols="4" class="d-flex justify-content-end">
-        <v-btn color="red" class="mx-3 white--text" @click="$router.back()">ຍົກເລິກ</v-btn>
+        <v-btn color="red" class="mx-3 white--text" @click="$router.back()"
+          >ຍົກເລິກ</v-btn
+        >
         <v-btn
           v-if="role === 'rural_admin'"
           outlined
@@ -118,7 +120,7 @@
                       <v-icon>mdi-account-group</v-icon>
                     </v-btn>
                   </template>
-                  <span>ເບີ່ງພະນັກງານ</span>
+                  <span>ເບີ່ງສະມາຊິກ</span>
                 </v-tooltip>
                 <v-tooltip bottom v-if="role === 'rural_admin'">
                   <template v-slot:activator="{ on, attrs }">
@@ -133,7 +135,7 @@
                       <v-icon>mdi-account-multiple-plus</v-icon>
                     </v-btn>
                   </template>
-                  <span>ສ້າງພະນັກງານ</span>
+                  <span>ສ້າງສະມາຊິກ</span>
                 </v-tooltip>
               </div>
             </div>
@@ -145,16 +147,25 @@
       <v-card>
         <v-card-title class="primary white--text">ສ້າງຫ້ອງເມືອງ</v-card-title>
         <v-divider></v-divider>
+        <!-- {{ city }} -->
         <v-card-text class="mt-3">
-          <v-text-field  class="pt-10" hide-details="auto" v-model="title" dense outlined label="ປ້ອນຊື່ຫ້ອງການ"></v-text-field>
+          <v-text-field
+            class="pt-10"
+            hide-details="auto"
+            v-model="title"
+            dense
+            outlined
+            label="ປ້ອນຊື່ຫ້ອງການ"
+          ></v-text-field>
           <v-select
-           hide-details="auto"
-           class="pt-4"
-            v-model="office_title"
+            hide-details="auto"
+            class="pt-4"
+            v-model="item"
             label="ເລືອກຊື່ເມືອງ"
             :items="city"
-            item-text="dn"
-            item-value="dn"
+            item-text="title"
+            item-value="title"
+            return-object
             outlined
             dense
           ></v-select>
@@ -180,16 +191,29 @@
         <v-card-title class="primary white--text">ຫ້ອງການ</v-card-title>
         <v-divider></v-divider>
         <v-card-text class="mt-3">
-          <v-text-field class="pt-10" label="ຊື່ຫ້ອງການ" dense outlined v-model="officeData.title" :rules="[(v) => !!v || '']"></v-text-field>
-          <v-text-field label="ເມືອງ" dense outlined v-model="officeData.office_title" :rules="[(v) => !!v || '']"></v-text-field>
+          <v-text-field
+            class="pt-10"
+            label="ຊື່ຫ້ອງການ"
+            dense
+            outlined
+            v-model="officeData.title"
+            :rules="[(v) => !!v || '']"
+          ></v-text-field>
+          <v-text-field
+            label="ເມືອງ"
+            dense
+            outlined
+            v-model="officeData.office_title"
+            :rules="[(v) => !!v || '']"
+          ></v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" dark outlined @click="dialogUdate = false">ຍົກເລິກ</v-btn>
-          <v-btn color="primary"  dark @click="updateOffice()"
-            >ບັນທືກ</v-btn
+          <v-btn color="red" dark outlined @click="dialogUdate = false"
+            >ຍົກເລິກ</v-btn
           >
+          <v-btn color="primary" dark @click="updateOffice()">ບັນທືກ</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -206,7 +230,7 @@
             <v-icon color="white">mdi-account</v-icon>
           </v-avatar>
           <v-toolbar-title
-            >ພະນັກງານຂອງ{{ officeData.office_title }}</v-toolbar-title
+            >ສະມາຊິກຂອງ{{ officeData.office_title }}</v-toolbar-title
           >
           <v-spacer></v-spacer>
           <div>
@@ -215,7 +239,7 @@
             </v-btn>
           </div>
         </v-toolbar>
-        <div v-if="officeGetData?.rows?.length <= 0">
+        <div v-if="officeGetData?.length <= 0">
           <v-card elevation="0">
             <v-card-text>
               <v-data-table
@@ -248,7 +272,7 @@
         <div v-else class="mt-5 mx-5">
           <v-row>
             <v-col
-              v-for="(item, index) in officeGetData?.rows"
+              v-for="(item, index) in officeGetData"
               :key="index"
               cols="12"
             >
@@ -272,7 +296,10 @@
                         :open-on-hover="hover"
                         :transition="transition"
                       >
-                        <template v-slot:activator v-if="role === 'rural_admin'">
+                        <template
+                          v-slot:activator
+                          v-if="role === 'rural_admin'"
+                        >
                           <v-btn color="blue darken-2" icon dark>
                             <v-icon v-if="fab == true"> mdi-close </v-icon>
                             <v-icon v-else> mdi-dots-vertical </v-icon>
@@ -368,11 +395,12 @@ export default {
   name: "CityPage",
   data() {
     return {
+      item: {},
       expanded: [],
       openDeleteData: false,
       openDeleteEmData: false,
       title: "",
-      office_title:"",
+      office_title: "",
       singleExpand: false,
       dialogUdate: false,
       dialogEmployee: false,
@@ -386,7 +414,7 @@ export default {
       ofId: "",
       tabs: null,
       city: [],
-      office:[],
+      office: [],
       transition: "slide-y-reverse-transition",
       search: "",
       role: this.$cookies.get("role"),
@@ -402,26 +430,26 @@ export default {
         { text: "ເມືອງ", value: "office_title" },
         { text: "ຈັດການ", value: "actions" },
         { text: "", value: "data-table-expand" },
-        { text: "", value: "employee" },
+        { text: "ຈັດການສະມາຊິກ", value: "employee" },
       ],
     };
   },
   mounted() {
     this.seleteData();
-    this.getCity()
+    this.getCity();
   },
   methods: {
-   
     updateEm(id) {
       this.$router.push(`/rural/cityOffice/update/${id}`);
     },
     openEmployee(item) {
       this.officeData = item;
-      console.log(item.id);
       this.dialogEmployee = true;
-      this.$axios.get(`/get-office-all-byId/${item.id}`).then((res) => {
-        this.officeGetData = res?.data;
-      });
+      this.$axios
+        .get(`/employee?id=${item.id}&level=4&table_name=ເມືອງ`)
+        .then((res) => {
+          this.officeGetData = res?.data;
+        });
     },
     deleteEm(id) {
       this.ofId = id;
@@ -429,15 +457,13 @@ export default {
     },
 
     async deleteEmData() {
-      await this.$axios
-        .delete(`/delete-office-member/${this.ofId}`)
-        .then((res) => {
-          console.log(res.data);
-          this.$toast.success("ສຳເລັດ");
-          this.openDeleteEmData = false;
-        });
+      await this.$axios.delete(`/delete-employee/${this.ofId}`).then((res) => {
+        console.log(res.data);
+        this.$toast.success("ສຳເລັດ");
+        this.openDeleteEmData = false;
+      });
       this.$axios
-        .get(`/get-office-all-byId/${this.officeData.id}`)
+        .get(`/employee?id=${this.officeData.id}&level=4&table_name=ເມືອງ`)
         .then((res) => {
           this.officeGetData = res?.data;
         });
@@ -455,7 +481,7 @@ export default {
     async updateOffice() {
       const data = {
         title: this.officeData.title,
-        office_title:this.officeData.office_title
+        office_title: this.officeData.office_title,
       };
       await this.$axios
         .put(`/office/${this.officeData.id}`, data)
@@ -493,15 +519,15 @@ export default {
       }
     },
     async createOffice() {
-      if (!this.title || !this.office_title) {
-        return this.$toast.error('ປ້ອນຂໍ້ມູນໃຫ້ຄົບ')
+      if (!this.title || !this.item) {
+        return this.$toast.error("ປ້ອນຂໍ້ມູນໃຫ້ຄົບ");
       }
       const data = {
         province_department_id: this.id,
         title: this.title,
-        office_title: this.office_title,
+        office_title: this.item.title,
+        city_id: this.item.id,
         // user_id: userId
-
       };
       // console.log(data);
       await this.$axios.post("/office", data).then((res) => {
@@ -517,8 +543,9 @@ export default {
     },
     async getCity() {
       let id = this.pid;
-      await this.$axios.get(`/address/city/${id}`).then((res) => {
+      await this.$axios.get(`/get-pid-city/${id}`).then((res) => {
         this.city = res?.data;
+        // console.log(res.data);
       });
     },
   },
@@ -527,8 +554,8 @@ export default {
       return this.$route.query.id;
     },
     pid() {
-        return this.$route.query.pid
-       }
+      return this.$route.query.pid;
+    },
   },
 };
 </script>

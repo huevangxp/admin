@@ -41,6 +41,13 @@
           {{ $moment(item.createdAt).format("DD/MM/YYYY") }}
         </div>
       </template>
+      <template #item.role_title="{item}">
+        <div>
+          <span v-if="item.role_title == 'super_admin'">super admin</span>
+          <span v-if="item.role_title == 'rural_admin'">admin ສູນກາງ</span>
+          <span v-if="item.role_title == 'ministry_admin'">admin ທ້ອງຖີ່ນ</span>
+        </div>
+      </template>
       <template #item.actions="{ item }">
         <div>
           <v-btn color="red" icon small @click.stop="openDelete(item)">
@@ -151,7 +158,7 @@ export default {
         },
         { text: "ສິດ", value: "role_title" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
     };
   },

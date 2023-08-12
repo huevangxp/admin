@@ -1,6 +1,6 @@
 <!-- <template>
   <div>
-    <h1 class="my-10">ຈັດການຂໍ້ມູນພະນັກງານຂອງກະຊວງ</h1>
+    <h1 class="my-10">ຈັດການຂໍ້ມູນສະມາຊິກຂອງກະຊວງ</h1>
     <v-row>
       <v-col cols="4">
         <v-text-field
@@ -15,7 +15,7 @@
       </v-col>
       <v-col cols="4"> </v-col>
       <v-col cols="4">
-        <v-btn color="primary" to="/ministry/create">ສ້າງພະນັກງານກະຊວງ</v-btn>
+        <v-btn color="primary" to="/ministry/create">ສ້າງສະມາຊິກກະຊວງ</v-btn>
       </v-col>
     </v-row>
     <v-data-table

@@ -100,7 +100,7 @@ export default {
         { text: "ຮູບພາບ", value: "profile" },
         { text: "ຊື່ກະຊວງ", value: "ministry_title" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
     };
   },

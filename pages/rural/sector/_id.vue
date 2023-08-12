@@ -109,7 +109,7 @@
                       <v-icon>mdi-account-group</v-icon>
                     </v-btn>
                   </template>
-                  <span>ເບີ່ງພະນັກງານ</span>
+                  <span>ເບີ່ງສະມາຊິກ</span>
                 </v-tooltip>
                 <v-tooltip bottom v-if="role === 'rural_admin'">
                   <template v-slot:activator="{ on, attrs }">
@@ -124,7 +124,7 @@
                       <v-icon>mdi-account-multiple-plus</v-icon>
                     </v-btn>
                   </template>
-                  <span>ສ້າງພະນັກງານ</span>
+                  <span>ສ້າງສະມາຊິກ</span>
                 </v-tooltip>
               </div>
             </div>
@@ -197,7 +197,7 @@
           <v-avatar class="mx-2" size="40" color="primary" dark>
             <v-icon color="white">mdi-account</v-icon>
           </v-avatar>
-          <v-toolbar-title>ພະນັກງານນອງກົມ</v-toolbar-title>
+          <v-toolbar-title>ສະມາຊິກນອງກົມ</v-toolbar-title>
           <v-spacer></v-spacer>
           <div>
             <v-btn fab elevation="0" @click="dialogEmployee = false">
@@ -205,7 +205,7 @@
             </v-btn>
           </div>
         </v-toolbar>
-        <div v-if="sectorEmployee?.rows?.length <= 0">
+        <div v-if="sectorEmployee?.length <= 0">
           <v-card elevation="0">
             <v-card-text>
               <v-data-table
@@ -237,7 +237,7 @@
         <div v-else class="mt-5 mx-5">
           <v-row>
             <v-col
-              v-for="(item, index) in sectorEmployee.rows"
+              v-for="(item, index) in sectorEmployee"
               :key="index"
               cols="12"
             >
@@ -338,7 +338,7 @@
     >
       <v-card>
         <v-card-title class="primary white--text"
-          >ລຶບພະນັກງານຂອງຂະແໜງ</v-card-title
+          >ລຶບສະມາຊິກຂອງຂະແໜງ</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text class="py-6 text-center black--text">
@@ -433,12 +433,12 @@ export default {
     },
     async deleteEm() {
       await this.$axios
-        .delete(`/delete-sector-member/${this.sid}`)
+        .delete(`/delete-employee/${this.sid}`)
         .then((res) => {
           this.$toast.success("ສຳເລັດ");
           this.deleteEmDialog = false;
         });
-      this.$axios.get(`/get-all-byId/${this.sid}`).then((res) => {
+      this.$axios.get(`employee?id=${this.sid}&level=3&table_name=ຂະແໜງ`).then((res) => {
         this.sectorEmployee = res?.data;
       });
     },
@@ -452,7 +452,7 @@ export default {
     async openEmployee(id) {
       this.sid = id;
       console.log(id);
-      await this.$axios.get(`/get-all-byId/${id}`).then((res) => {
+      await this.$axios.get(`/employee?id=${id}&level=3&table_name=ຂະແໜງ`).then((res) => {
         this.sectorEmployee = res?.data;
       });
       this.dialogEmployee = true;

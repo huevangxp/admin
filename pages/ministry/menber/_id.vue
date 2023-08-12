@@ -11,7 +11,7 @@
           <v-avatar class="mx-2" size="40" color="white">
             <v-icon color="primary">mdi-account</v-icon>
           </v-avatar>
-          <v-toolbar-title>ພະນັກງານນອງກົມ</v-toolbar-title>
+          <v-toolbar-title>ສະມາຊິກນອງກົມ</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn dark text @click="dialogEmployee = false"> ປິດ </v-btn>
@@ -271,7 +271,7 @@ export default {
         { text: "ອີເມວ", value: "email" },
         { text: "ສະຖານະ", value: "role" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
     
     };

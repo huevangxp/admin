@@ -1,7 +1,7 @@
 <template>
     <div>
       <h1 class="my-10 ml-3">
-        ຈັດການຂໍ້ມູນພະນັກງານທັງໜົດ
+        ຈັດການຂໍ້ມູນສະມາຊິກທັງໜົດ
         <span class="primary--text" style="border-bottom: 1px solid #000">{{
           title
         }}</span>
@@ -22,9 +22,9 @@
           <v-col cols="4"> </v-col>
           <v-col cols="4" class="d-flex justify-end">
             <v-btn class="mx-2" outlined color="primary" to="/dashboard/member/create"
-              >ສ້າງພະນັກງານ</v-btn>
+              >ສ້າງສະມາຊິກ</v-btn>
             <v-btn color="pick" dark to="/dashboard/member/oldMember"
-              >ເບີ່ງພະນັກງານເກົ່າ</v-btn>
+              >ເບີ່ງສະມາຊິກເກົ່າ</v-btn>
           </v-col>
         </v-row>
       </v-card>
@@ -185,7 +185,7 @@
           { text: "ຕຳແໜງ", value: "position" },
           { text: "ສະຖະນາ", value: "status" },
           { text: "ປະຫັວດ", value: "details" },
-          { text: "", value: "actions" },
+          { text: "ຈັດການ", value: "actions" },
         ],
       };
     },

@@ -6,7 +6,7 @@
           <v-avatar class="mr-3 pa-1" size="40" color="teal">
             <v-icon class="white">mdi-account</v-icon>
           </v-avatar>
-          ສ້າງພະນັກງານ</v-card-title
+          ສ້າງສະມາຊິກ</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text class="d-none">
@@ -18,7 +18,6 @@
         </v-card-text>
         <div class="d-flex justify-center my-5">
           <v-avatar size="150" v-if="image" @click="getImage">
-
             <v-img v-if="loading" src="/loading.gif" alt="profile"></v-img>
             <v-img v-else :src="image" alt="profile"></v-img>
           </v-avatar>
@@ -100,8 +99,7 @@ export default {
   layout: "Black",
   data() {
     return {
-        user:{
-      },
+      user: {},
       images: "",
       image: "",
       imageUrl: "",
@@ -131,12 +129,19 @@ export default {
     },
     async member() {
       try {
-        if (!this.imageUrl || !this.user.name  || !this.user.last_name || !this.user.phone || !this.user.address) {
-        return  this.$toast.error("ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ")
+        if (
+          !this.imageUrl ||
+          !this.user.name ||
+          !this.user.last_name ||
+          !this.user.phone ||
+          !this.user.address
+        ) {
+          return this.$toast.error("ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ");
         }
         const data = {
-            profile: this.imageUrl,
-            db_status:'rural_member',
+          profile: this.imageUrl,
+          db_status: "rural_member",
+          position: "ລໍຖ້າ",
           ...this.user,
         };
         await this.$axios.post("/create-member", data).then((res) => {

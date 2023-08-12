@@ -2,7 +2,7 @@
   <div>
     <v-form onsubmit="member">
     <v-card max-width="800px" class="mx-auto" elevation="0">
-      <v-card-title>ສ້າງພະນັກງານ</v-card-title>
+      <v-card-title>ສ້າງສະມາຊິກ</v-card-title>
       <v-divider></v-divider>
       <v-card-text class="d-none">
         <v-file-input

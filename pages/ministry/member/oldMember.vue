@@ -1,7 +1,7 @@
 <template>
     <div>
       <h1 class="my-10 ml-3">
-        ຈັດການຂໍ້ມູນພະນັກງານເກົ່າ
+        ຈັດການຂໍ້ມູນສະມາຊິກເກົ່າ
         <span class="primary--text" style="border-bottom: 1px solid #000">{{
           title
         }}</span>
@@ -162,11 +162,11 @@
         mData: {},
         role: this.$cookies.get("role"),
         title: this.$cookies.get("title"),
+        id:this.$cookies.get("userId"),
         doId: "",
         search: "",
         dataPrepare: [],
         department_organization_title: "",
-  
         dessertHeaders: [
           {
             text: "ລ/ດ",
@@ -181,7 +181,7 @@
           { text: "ຕຳແໜງ", value: "position" },
           { text: "ສະຖະນາ", value: "status" },
           { text: "ປະຫັວດ", value: "details" },
-          { text: "", value: "actions" },
+          { text: "ຈັດການ", value: "actions" },
         ],
       };
     },
@@ -209,7 +209,7 @@
       },
   
       getData() {
-          this.$axios.get(`/get-all-member?status=1`).then((res) => {
+          this.$axios.get(`/get-all-member?status=1&userId=${this.id}`).then((res) => {
             console.log(res.data);
           this.dataPrepare = res?.data;
         });

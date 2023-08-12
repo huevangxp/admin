@@ -6,7 +6,7 @@
           <v-avatar class="mr-3 pa-1" size="40" color="teal">
             <v-icon class="white">mdi-account</v-icon>
           </v-avatar>
-          ສ້າງພະນັກງານ</v-card-title
+          ສ້າງສະມາຊິກ</v-card-title
         >
         <v-divider></v-divider>
         <v-card-text class="d-none">
@@ -136,9 +136,11 @@ export default {
         }
         const data = {
             profile: this.imageUrl,
-            db_status:'rural_member',
+          db_status: 'ministry_member',
+            position:'ລໍຖ້າ',
           ...this.user,
         };
+        console.log(data);
         await this.$axios.post("/create-member", data).then((res) => {
           this.$toast.success("ສຳເລັດ");
           this.$router.back();

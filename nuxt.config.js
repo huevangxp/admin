@@ -18,6 +18,7 @@ export default {
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100;200;300;400;500;600&display=swap'}
+      // { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+Lao+Looped:wght@100;200;300;400;500;600&display=swap'}
     ]
   },
 
@@ -26,7 +27,6 @@ export default {
   ],
 
   publicRuntimeConfig: {
-    // imageKey: '31724911-b7434b8167bbba9384616102d',
     api: 'http://localhost:9000/api/v1',
   },
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -44,6 +44,27 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
+
+  pwa: {
+    meta: {
+      title: 'admin',
+      author: 'Me',
+    },
+    manifest: {
+      name: 'admin',
+      short_name: 'admin',
+      description: 'fantastic pwa for weather done locally',
+      lang: 'en',
+      theme_color: '#222',
+      backgroud_color: '#222',
+      start_url: '/',
+      prefer_related_applications: true,
+    },
+    icon: {
+      fileName: 'logo.png',
+      size: [64, 120, 144, 152, 192, 384, 512],
+    },
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
@@ -83,6 +104,8 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
+  build: {},
+  server: {
+    host: '0.0.0.0',
+  },
 }

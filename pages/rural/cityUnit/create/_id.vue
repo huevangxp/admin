@@ -6,7 +6,7 @@
           <v-avatar class="mr-3 pa-1" size="40" color="teal">
             <v-icon class="white">mdi-account</v-icon>
           </v-avatar>
-          ສ້າງພະນັກງານ
+          ສ້າງສະມາຊິກ
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text class="d-none">
@@ -60,6 +60,7 @@
             <v-col cols="12" md="6">
               <v-text-field
                 v-model="user.phone"
+                type="number"
                 label="ເບີໂທ"
                 outlined
                 dense
@@ -68,14 +69,17 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="6">
-              <v-text-field
+              <v-select
                 v-model="user.position"
                 label="ຕຳແໜງ"
                 outlined
+                :items="bossRole"
+                item-value="value"
+                item-text="value"
                 dense
                 hide-details="auto"
                 :rules="[(v) => !!v || 'ຈຳເປັນ']"
-              ></v-text-field>
+              ></v-select>
             </v-col>
             <v-col cols="12">
               <v-text-field
@@ -122,7 +126,11 @@ export default {
       images: "",
       image: "",
       imageUrl: "",
-      loading:false
+      loading: false,
+      bossRole: [
+        {id:1, value:'ຫົວໜ້າ'},
+        {id:1, value:'ຄະນະ'}
+      ]
     };
   },
   mounted() {
@@ -162,7 +170,7 @@ export default {
     async member() {
       try {
         const data = {
-          unit_id: this.id,
+          from_db_id: this.id,
           profile: this.imageUrl == "" ? this.user.profile : this.imageUrl,
           name: this.user.name,
           last_name: this.user.last_name,
@@ -170,9 +178,11 @@ export default {
           position: this.user.position,
           address: this.user.address,
           details: this.user.details,
+          level: '5',
+          table_name: 'ໜ່ວຍງານ'
         };
         console.log(data);
-        await this.$axios.post(`/create-unit-member/${this.mid}`, data).then((res) => {
+        await this.$axios.post(`/employee`, data).then((res) => {
           this.$toast.success("ສຳເລັດ");
           this.$router.back();
         });

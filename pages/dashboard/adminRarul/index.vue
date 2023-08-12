@@ -110,7 +110,7 @@ export default {
         { text: "ພະແນກ", value: "title" },
         { text: "ແຂວງພະແນກ", value: "province_title" },
         { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "", value: "actions" },
+        { text: "ຈັດການ", value: "actions" },
       ],
     };
   },
