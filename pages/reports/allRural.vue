@@ -35,7 +35,7 @@
     <!-- <template> -->
       <table width="100%" scrolling="0" class="bordered-table py-16">
         <!-- <template> -->
-          <thead >
+          <thead style="text-align: center">
             <tr>
               <th>ລ/ດ</th>
               <th class="wider">ຊື່ແຂວງ, ນະຄອນຫຼວງ</th>
@@ -65,35 +65,31 @@
               </th> -->
             </tr>
           </thead>
-          <tbody style="text-align: center">
+          <tbody>
             <tr v-for="(item, index) in listing" :key="index">
               <td>{{ index + 1 }}</td>
               <td>{{ item.province }}</td>
-              <td>{{ item.children.ptCount }}</td>
+              <td  style="text-align: center">{{ item.children.ptCount }}</td>
               <!-- <td>{{ item.children.headPdoCount }}</td> -->
               <!-- <td>{{ item.children.subHeadPdoCount }}</td> -->
-              <td>{{ item.children.departmentCounting }}</td>
-              <td>{{ item.children.headDepartmentCounting }}</td>
-              <td>{{ item.children.subHeadDepartmentCounting }}</td>
+              <td  style="text-align: center">{{ item.children.departmentCounting }}</td>
+              <td  style="text-align: center">{{ item.children.headDepartmentCounting }}</td>
+              <td  style="text-align: center">{{ item.children.subHeadDepartmentCounting }}</td>
               <!-- <td></td>
               <td></td> -->
             </tr>
             <tr>
               <td></td>
               <td>ລວມ</td>
-              <td> {{ listing.reduce((sum, e) => sum + e.children.ptCount, 0) }} </td>
+              <td  style="text-align: center"> {{ listing.reduce((sum, e) => sum + e.children.ptCount, 0) }} </td>
               <!-- <td>{{ listing.reduce((sum, e) => sum + e.children.headPdoCount, 0) }}</td> -->
               <!-- <td>{{ listing.reduce((sum, e) => sum + e.children.subHeadPdoCount, 0) }}</td> -->
-              <td>{{ listing.reduce((sum, e) => sum + e.children.departmentCounting, 0) }}</td>
-              <td>{{ listing.reduce((sum, e) => sum + e.children.headDepartmentCounting, 0) }}</td>
-              <td>{{ listing.reduce((sum, e) => sum + e.children.subHeadDepartmentCounting, 0) }}</td>
-              <!-- <td>0</td>
-              <td>0</td> -->
+              <td  style="text-align: center">{{ listing.reduce((sum, e) => sum + e.children.departmentCounting, 0) }}</td>
+              <td  style="text-align: center">{{ listing.reduce((sum, e) => sum + e.children.headDepartmentCounting, 0) }}</td>
+              <td  style="text-align: center">{{ listing.reduce((sum, e) => sum + e.children.subHeadDepartmentCounting, 0) }}</td>
             </tr>
           </tbody>
-        <!-- </template> -->
       </table>
-    <!-- </template> -->
     <v-row class="mt-16">
       <v-col cols="6"> </v-col>
       <v-col cols="6" class="d-flex justify-end">
@@ -125,7 +121,7 @@ export default {
       e_headers: "ລາຍງານ",
       dialog: false,
       boss: 100,
-      listing:[],
+      // listing:[],
       // ruralData:
 
       title:
@@ -153,7 +149,7 @@ export default {
     this.getData()
   },
   computed: {
-    listing1() {
+    listing() {
       const province = this.allProvince.map((el) => {
         const ptCount = this.allPtm.filter(
           (e) => e.province_id == el.id
@@ -253,15 +249,20 @@ export default {
           index = parseInt(i) + 1;
           var obj = {
             ລຳດັບ: index,
-            ຊື່ແຂວງ_ນະຄອນຫຼວງ: el.province,
+            ຊື່ແຂວງແລະນະຄອນຫຼວງ: el.province,
             ຈໍານວນພະແນກ: el.children.ptCount,
             ຈໍານວນຂະແໜງ: el.children.departmentCounting,
             ຈໍານວນຫົວໜ້າຂະແໜງ: el.children.headDepartmentCounting,
             ຈໍານວນຄະນະຂະແໜງ: el.children.subHeadDepartmentCounting,
-            // ຈໍານວນຫົວໜ້າພະແນກ: el.children.headDepartmentCounting,
-            // ຈໍານວນຄະນະພະແນກ: el.children.subHeadDepartmentCounting,
-            ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
+            // ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
           };
+          // var report = {
+          //   ລວມ:ລວມ,
+          //   ລວມຂະແໜງ:this.listing.reduce((sum, e) => sum + e.children.departmentCounting, 0),
+          //   ຈໍານວນຫົວໜ້າຂະແໜງ:  this.listing.reduce((sum, e) => sum + e.children.subHeadDepartmentCounting, 0),
+          //   ຈໍານວນຄະນະຂະແໜງ:  this.listing.reduce((sum, e) => sum + e.children.subHeadDepartmentCounting, 0),
+          //   // ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
+          // }
           list.push(obj);
         }
         return list;

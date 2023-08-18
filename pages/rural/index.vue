@@ -7,7 +7,7 @@
           <v-img src="/card.png" alt="alt">
           <v-card-title>
 
-            <v-avatar size="150" color="white" class="ml-8">
+            <v-avatar size="150" color="white" class="ml-4">
               <v-img
               class="z-index:999999999999999999999"
                 :src="data.profile"

@@ -285,7 +285,7 @@
           <v-text-field
             v-model="department_organization_title"
             class="pt-10"
-            label="ເລືອກກົມ"
+            label="ສ້າງກົມ"
             outlined
             dense
             :rules="[(v) => !!v || 'ຈຳເປັນ']"

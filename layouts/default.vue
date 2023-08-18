@@ -5,12 +5,11 @@
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
-      width="320"
+      width="300"
       fixed
       app
       color="white"
     >
-      <!-- dark -->
       <v-btn
         icon
         class="ml-1"
@@ -20,15 +19,6 @@
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
       </v-btn>
-      <v-card v-if="miniVariant == false" elevation="0">
-        <v-card-title class="d-flex justify-center">
-          <v-avatar size="102" color="primary">
-            <v-avatar size="100">
-              <v-img :src="profile" alt="image"></v-img>
-            </v-avatar>
-          </v-avatar>
-        </v-card-title>
-      </v-card>
       <v-list v-for="(item, i) in items" :key="i" dense class="py-0" tile flat>
         <v-list-group
           v-if="item.children"
@@ -36,10 +26,10 @@
           no-action
           dark
           active-class="primary white--text"
-          style="font-size: 12px;"
+          style="font-size: 14px;"
         >
           <template #activator>
-            <v-list-item-title class="py-2" style="font-size: 12px">{{
+            <v-list-item-title class="py-2" style="font-size: 14px">{{
               item.title
             }}</v-list-item-title>
           </template>
@@ -54,7 +44,7 @@
             <v-list-item-action>
               <v-icon>{{ subItem.icon }}</v-icon>
             </v-list-item-action>
-            <v-list-item-title class="py-2" style="font-size: 12px">{{
+            <v-list-item-title class="py-2" style="font-size: 14px">{{
               subItem.title
             }}</v-list-item-title>
           </v-list-item>
@@ -71,7 +61,7 @@
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title class="font-weight-bold" style="font-size: 12px">
+            <v-list-item-title class="font-weight-bold" style="font-size: 14px">
               {{ item.title }}
             </v-list-item-title>
           </v-list-item-content>
@@ -285,10 +275,23 @@
       <div class="mx-4">version {{ VERSION }}</div>
       <div class="d-flex">
         <p class="mt-4" style="border-bottom: 1px solid #fff">ຜູ້ໃຊ້ລະບົບ:</p>
+        <div class="mt-3 ml-4" v-if="role == 'super_admin'">
+       <v-avatar size="35">
+         <v-img lazy-src="/loading.gif"  :src="profile" alt="image"></v-img>
+       </v-avatar>
+        </div>
         <v-tab v-if="role === 'super_admin'">
-          <v-badge color="primary" dot>
+            <v-badge
+            color="blue"
+      dot
+      >
+        <!-- <template v-slot:badge>
+          <v-avatar>
+             <v-img :src="profile" alt="image"></v-img>
+          </v-avatar>
+        </template> -->
             <span class="font-weight-bold">{{ name }}</span>
-          </v-badge>
+      </v-badge>
         </v-tab>
         <v-tab v-else>
           <v-badge color="primary" dot>
@@ -408,12 +411,12 @@ export default {
           to: "/",
           children: [
             {
-              icon: "mdi-account-child-circle",
+              icon: "mdi-bank-minus",
               title: "ຈັດການຂໍ້ມູນກະຊວງ",
               to: "/dashboard/dataMinistry",
             },
             {
-              icon: "mdi-account-child-circle",
+              icon: "mdi-parking",
               title: "ຈັດການຂໍ້ມູນແຂວງ",
               to: "/dashboard/dataRarul",
             },

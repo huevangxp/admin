@@ -4,8 +4,8 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   // target:server,
   head: {
-    titleTemplate: '%s - ກະຊວງພາຍໃນ',
-    title: 'admin',
+    titleTemplate: 'ລະບົບຄຸ້ມຄອງສະຖິຕິກົງຈັກການຈັດຕັ້ງລັດຖະບານແຫ່ງ ສປປລາວ',
+    // title: 'admin',
     htmlAttrs: {
       lang: 'en'
     },

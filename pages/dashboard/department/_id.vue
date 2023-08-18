@@ -114,6 +114,17 @@
         <v-card-title class="primary white--text">ສ້າງພະແນກ</v-card-title>
         <v-divider></v-divider>
         <v-card-text class="mt-3">
+          <!-- <v-select
+            v-model="department_organization_title"
+            class="pt-10"
+            :items="prepareData"
+            item-text="value"
+            item-value="value"
+            label="ຊື່ພະແນກ"
+            outlined
+            dense
+            :rules="[(v) => !!v || 'ຈຳເປັນ']"
+          ></v-select> -->
           <v-text-field
             v-model="department_organization_title"
             class="pt-10"
@@ -205,6 +216,29 @@ export default {
       search: "",
       departmentDO: [],
       department_organization_title: "",
+
+      prepareData: [
+        {id:1, value: 'ພະແນກການຕ່າງປະເທດ'},
+        {id:2, value: 'ສະຫະພັນນັກຮົບເກົ່າ'},
+        {id:3, value: 'ຫ້ອງການກໍສ້າງຮາກຖານການເມືອງ'},
+        {id:4, value: 'ໂຄສະນາອົບຮົບແຂວງ'},
+        {id:5, value: 'ອົງການພັດທະນາ ແລະ ບໍລະຫານຕົວເມືອງ'},
+        {id:6, value: 'ພະແນກພາຍໃນ'},
+        {id:7, value: 'ພະແນກສຶກສາທິການ ແລະ ກິລາ'},
+        {id:8, value: 'ພະແນກສາທາລະນະສຸກ'},
+        {id:9, value: 'ພະແນກຖະແຫຼງຂ່າວ, ວັດທະນະທຳ ແລະ ທ່ອງທ່ຽວ'},
+        {id:10, value: 'ພະແນກແຮງງານ ແລະ ສະຫວັດດີການສັງຄົມ'},
+        {id:11, value: 'ອົງການກາແດງລາວ'},
+        {id:12, value: 'ພະແນກແຜນການ ແລະ ການລົງທຶນ'},
+        {id:13, value: 'ພະແນກສູນສະຖິຕິແຫ່ງຊາດ'},
+        {id:14, value: 'ພະແນກການເງີນ'},
+        {id:15, value: 'ພະແນກການກະສິກຳ ແລະ ປ່າໄມ້'},
+        {id:16, value: 'ພະແນກຊັບພະຍາກອນທຳມາຊາດ ແລະ ສິ່ງແວດລ້ອມ'},
+        {id:17, value: 'ພະແນກພະລັງງານ ແລະ ບໍ່ແຮ່'},
+        {id:18, value: 'ພະແນກອຸດສາຫະກຳ ແລະ ການຄ້າ'},
+        {id:19, value: 'ພະແນກໂຍທາທິການ ແລະ ຂົນສົ່ງ'},
+        {id:20, value: 'ພະແນກຍຸຕີທຳ'},
+      ],
 
       dessertHeaders: [
         {

@@ -117,17 +117,14 @@
         <v-divider></v-divider>
         <v-card-text class="mt-3">
           <!-- <v-text-field  class="pt-10" hide-details="auto" v-model="office_title" dense outlined label="ປ້ອນຊື່ຫ້ອງການ"></v-text-field> -->
-          <v-select
+          <v-text-field
            hide-details="auto"
            class="pt-10"
             v-model="title"
             label="ເລືອກຊື່ເມືອງ"
-            :items="city"
-            item-text="dn"
-            item-value="dn"
             outlined
             dense
-          ></v-select>
+          ></v-text-field>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
@@ -266,6 +263,7 @@ export default {
         };
         await this.$axios.post("/district", data).then((res) => {
           this.dialog = false;
+          this.title = ''
         });
         this.$axios.get(`/district/${this.id}`).then((res) => {
           // console.log(res.data);
