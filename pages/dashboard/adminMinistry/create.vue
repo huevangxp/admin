@@ -103,9 +103,9 @@
         <v-spacer></v-spacer>
 
         <v-btn v-if="step == 2" color="primary" depressed @click="create">
-          ບັກທືນ
+          ບັກທຶກ
         </v-btn>
-        <v-btn v-else color="primary" depressed @click="step++"> ບັກທືນ </v-btn>
+        <v-btn v-else color="primary" depressed @click="step++"> ບັກທຶກ </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -155,7 +155,7 @@ export default {
     },
     async create() {
       try {
-        if (!this.user.ministry_title || !this.user.role || !this.user.password || !this.user.user_name) {
+        if (!this.imageUrl || !this.user.ministry_title || !this.user.role || !this.user.password || !this.user.user_name) {
         return  this.$toast.error("ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ")
         }
         const data = {

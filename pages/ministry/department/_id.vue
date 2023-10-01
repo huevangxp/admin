@@ -297,7 +297,7 @@
           <v-btn color="red" outlined dark @click="dialog = false"
             >ຍົກເລິກ</v-btn
           >
-          <v-btn color="primary" dark @click="createDO()">ສ້າງກົມ</v-btn>
+          <v-btn color="primary" dark @click="createDO()">ບັນທືກ</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

@@ -183,8 +183,6 @@
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
       </v-btn>
-    
-
       <v-list dense nav>
         <v-list-tile
           @click="moveMinistry"
@@ -265,7 +263,7 @@
         <v-img lazy-src="/loading.gif" :src="profile" alt="alt" />
       </v-avatar>
       <v-toolbar-title v-if="role == 'super_admin'" class="ml-3">
-        <!-- ອົງການທີ່ຂື້ນກັບລັດຖະບານ -->
+
         ລະບົບຄຸ້ມຄອງສະຖິຕິກົງຈັກການຈັດຕັ້ງລັດຖະບານແຫ່ງ ສປປລາວ
       </v-toolbar-title>
       <v-toolbar-title v-else class="ml-3">
@@ -406,9 +404,14 @@ export default {
       ],
       items: [
         {
+          icon: 'mdi-monitor-dashboard',
+          title: 'ໜ້າຫຼ້ກ',
+          to:'/'
+        },
+        {
           icon: "mdi-database",
           title: "ຈັດການຂໍ້ມູນພື້ນຖາມ",
-          to: "/",
+          // to: "/",
           children: [
             {
               icon: "mdi-bank-minus",

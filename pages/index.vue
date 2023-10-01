@@ -1,132 +1,82 @@
 <template>
-  <div>
-    <!-- {{ ministry }}/ -->
-    <h1 class="my-10">ຈັດການຂໍ້ມູນຂອງກະຊວງ</h1>
-
-    <v-row>
-      <v-col md="6">
-        <v-text-field
-        v-model="search"
-          outlined
-          dense
-          placeholder="ຄົ້ນຫາກະຊວງ"
-        append-icon="mdi-magnify"
-        ></v-text-field>
-      </v-col>
-      <v-col md="6" class="d-flex justify-end">
-        <v-btn color="red" class="mx-3 white--text" @click="$router.back()">ຍົກເລິກ</v-btn>
-
-        <v-btn outlined color="primary" dark to="/dashboard/adminMinistry/create"
-          >ສ້າງກະຊວງ</v-btn
-        >
-      </v-col>
-    </v-row>
-    <v-data-table
-      :headers="headers"
-      :items="ministry.rows"
-      class="elevation-3"
-      :search="search"
-      :items-per-page="5"
-      fixed-header
-      
-    >
-      <!-- @click:row="showDetails" -->
-      <template #item.profile="{ item }">
-        <div>
-          <v-avatar size="70">
-            <v-img lazy-src="/loading.gif" :src="item?.profile" alt="profile"></v-img>
-          </v-avatar>
-        </div>
-      </template>
-      <template #item.idx="{ index }">
-        <div>
-          {{ index + 1 }}
-        </div>
-      </template>
-      <template #item.createdAt="{ item }">
-        <div>
-          {{ $moment(item.createdAt).format("DD/MM/YYYY") }}
-        </div>
-      </template>
-      <template #item.actions="{ item }">
-        <div>
-          <v-btn color="red" icon small @click.stop="openDelete(item)">
-            <v-icon>mdi-delete</v-icon>
-          </v-btn>
-          <v-btn color="primary" icon small @click.stop="$router.push(`/dashboard/adminMinistry/update/${item.id}`)">
-            <v-icon>mdi-account-edit</v-icon>
-          </v-btn>
-        </div>
-      </template>
-    </v-data-table>
-        <!-- delete data amdin ministry -->
-        <v-dialog
-      v-model="deleteDialog"
-      persistent
-      :overlay="false"
-      max-width="500px"
-      transition="dialog-transition"
-    >
-      <v-card>
-        <v-card-title class="primary white--text">ລຶບຂະແໜງ</v-card-title>
-        <v-divider></v-divider>
-        <v-card-text class="py-6 text-center black--text">
-          ທ່ານຕ້ອງການລືບບັນຊີນີ້ບໍ?
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="red" dark outlined @click="deleteDialog = false"
-            >ຍົກເລິກ</v-btn
-          >
-          <v-btn color="primary" @click="deleteData">ລຶບຂໍ້ມູນ</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+  <div class="pt-10">
+    <v-item-group>
+      <v-row>
+        <v-col v-for="(item, index) in items" :key="index" cols="4">
+          <v-item v-slot="{ active, toggle }">
+            <v-card
+              max-width="200"
+              :color="active ? 'primary' : ''"
+              @click="selectItem(item.id, toggle)"
+            >
+              <v-row>
+                <v-col cols="4 d-flex justify-center">
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-col>
+                <v-col cols="8">
+                  <v-card-title> {{ item.name }} </v-card-title>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-item>
+        </v-col>
+      </v-row>
+    </v-item-group>
+    <div class="mt-10">
+      <div v-if="check === 1"> 
+        <DashboardMinistry/>
+      </div>
+      <div v-if="check === 2">
+      <DashboardProvince/>
+      </div>
+      <div v-if="check === 3">
+      <DashboardCity/>
+      </div>
+    </div>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
-      search: '',
-      deleteDialog:false,
-      headers: [
+      check: 1, // Initialize as a number
+      items: [
         {
-          text: "ລ/ດ",
-          align: "start",
-          sortable: false,
-          value: "idx",
+          id: 1,
+          icon: 'mdi-monitor-dashboard',
+          name: 'ຂັ້ນກະຊວງ',
         },
-        { text: "ຮູບພາບ", value: "profile" },
-        { text: "ຊື່ກະຊວງ", value: "ministry_title" },
-        { text: "ວັນທີສ້າງ", value: "createdAt" },
-        { text: "ຈັດການ", value: "actions" },
+        {
+          id: 2,
+          icon: 'mdi-monitor-dashboard',
+          name: 'ຂັ້ນແຂວງ',
+        },
+        {
+          id: 3,
+          icon: 'mdi-monitor-dashboard',
+          name: 'ຂັ້ນເມືອງ',
+        },
       ],
     };
   },
-  computed: {
-    ministry() {
-      return this.$store.state.ministry.ministry;
-    },
-  },
-  mounted() {
-    this.$store.dispatch("ministry/getMinistry");
-  },
   methods: {
-   async openDelete(item) {
-      try {
-        this.data = item;
-        this.deleteDialog = true;
-      } catch (error) {
-        console.log(error);
-      }
+    selectItem(id, toggle) {
+      console.log(id);
+      this.check = id; // Update the check data property
+      toggle(); // Call the toggle function to manage item selection
     },
-    async deleteData() {
-      // console.log(id);
-      await this.$store.dispatch("ministry/deleteMinistry", this.data.id);
-      this.deleteDialog = false;
-      this.$toast.success('ສຳເລັດ')
-      this.$store.dispatch("ministry/getMinistry");
+    getSelectedText() {
+      switch (this.check) {
+        case 1:
+          return 'ministry';
+        case 2:
+          return 'province';
+        case 3:
+          return 'district';
+        default:
+          return '';
+      }
     },
   },
 };
