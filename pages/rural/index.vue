@@ -63,11 +63,15 @@ export default {
     },
   },
   methods: {
+    async createTest() {
+      // if (let i 0; )
+    },
     async createProvince() {
       const object = {
         profile: this.images,
         province: this.province_title,
       };
+
       // console.log(object);
       await this.$store.dispatch("province/createProvince", { ...object });
       this.$store.dispatch("province/getProvince");

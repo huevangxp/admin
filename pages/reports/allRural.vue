@@ -254,15 +254,7 @@ export default {
             ຈໍານວນຂະແໜງ: el.children.departmentCounting,
             ຈໍານວນຫົວໜ້າຂະແໜງ: el.children.headDepartmentCounting,
             ຈໍານວນຄະນະຂະແໜງ: el.children.subHeadDepartmentCounting,
-            // ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
           };
-          // var report = {
-          //   ລວມ:ລວມ,
-          //   ລວມຂະແໜງ:this.listing.reduce((sum, e) => sum + e.children.departmentCounting, 0),
-          //   ຈໍານວນຫົວໜ້າຂະແໜງ:  this.listing.reduce((sum, e) => sum + e.children.subHeadDepartmentCounting, 0),
-          //   ຈໍານວນຄະນະຂະແໜງ:  this.listing.reduce((sum, e) => sum + e.children.subHeadDepartmentCounting, 0),
-          //   // ວັນທີ່: this.$moment(Date()).format("DD/MM/YYYY"),
-          // }
           list.push(obj);
         }
         return list;

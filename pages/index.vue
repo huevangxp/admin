@@ -19,6 +19,7 @@
               </v-row>
             </v-card>
           </v-item>
+          
         </v-col>
       </v-row>
     </v-item-group>

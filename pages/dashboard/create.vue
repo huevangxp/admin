@@ -262,9 +262,6 @@ export default {
       document.getElementById("picture").click();
     },
     async createAdmin() {
-      if (!this.user.name || !this.user.user_name || !this.user.password || !this.user.email || !this.user.status || !this.user.role || !this.user.position) {
-        return  this.$toast.error("ກະລຸນາປ້ອນຂໍ້ມູນໃຫ້ຄົບ")
-        }
       await this.$store.dispatch("user/createAdmin", { ...this.user });
       this.$store.dispatch("user/getAdmin");
       this.dialog = false;
